@@ -1,0 +1,25 @@
+{
+  "componentDescriptors": [
+    {
+      "hidden": false,
+      "displayName": "XPath",
+      "fullyQualifiedName": "com.reedelk.xml.component.XPathComponent",
+      "componentType": "PROCESSOR",
+      "componentPropertyDescriptors": [
+        {
+          "displayName": "XPath Expression",
+          "propertyName": "expression",
+          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
+            "instance": {
+              "type": "java.lang.String"
+            }
+          },
+          "whenDescriptors": []
+        }
+      ]
+    }
+  ],
+  "autocompleteContributorDescriptors": []
+}

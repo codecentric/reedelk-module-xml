@@ -47,11 +47,6 @@ public class XPathComponent implements ProcessorSync {
     }
 
     @Override
-    public void dispose() {
-
-    }
-
-    @Override
     public Message apply(Message message, FlowContext flowContext) {
 
         String payload = message.payload();
@@ -61,12 +56,15 @@ public class XPathComponent implements ProcessorSync {
             Document xmlDocument = builder.parse(fileIS);
             String expression = "/Tutorials/Tutorial";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
-
-
             return MessageBuilder.get().withJavaObject(nodeList).build();
         } catch (SAXException | IOException | XPathExpressionException e) {
             throw new ESBException(e);
         }
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     public void setExpression(String expression) {
