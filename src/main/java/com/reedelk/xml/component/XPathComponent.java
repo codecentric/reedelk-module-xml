@@ -51,12 +51,12 @@ public class XPathComponent implements ProcessorSync {
 
         String payload = message.payload();
 
-        InputStream fileIS = new ByteArrayInputStream(payload.getBytes());
+        InputStream fileInputStream = new ByteArrayInputStream(payload.getBytes());
         try {
-            Document xmlDocument = builder.parse(fileIS);
+            Document xmlDocument = builder.parse(fileInputStream);
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
             return MessageBuilder.get().withJavaObject(nodeList).build();
-        } catch (SAXException | IOException | XPathExpressionException e) {
+        } catch ( XPathExpressionException | SAXException | IOException e) {
             throw new ESBException(e);
         }
     }
