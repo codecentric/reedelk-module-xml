@@ -1,0 +1,10 @@
+{
+  "id": "85f66f16-c076-4979-a237-3206a98c3568",
+  "title": "XML Test Listener",
+  "implementor": "com.reedelk.rest.configuration.listener.ListenerConfiguration",
+  "host": "localhost",
+  "port": 8080,
+  "protocol": "HTTP",
+  "basePath": "",
+  "keepAlive": true
+}

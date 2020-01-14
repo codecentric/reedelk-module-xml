@@ -10,21 +10,25 @@ import com.reedelk.runtime.api.message.MessageBuilder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-@ESBComponent("XPath")
+@ESBComponent("XPath Extract")
 @Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
 public class XPathComponent implements ProcessorSync {
 
@@ -33,7 +37,8 @@ public class XPathComponent implements ProcessorSync {
 
 
     private DocumentBuilder builder;
-    private XPath xPath;
+    private XPathExpression xPathExpression;
+    private Transformer xform;
 
     @Override
     public void initialize() {
@@ -43,7 +48,21 @@ public class XPathComponent implements ProcessorSync {
         } catch (ParserConfigurationException e) {
             throw new ESBException(e);
         }
-        this.xPath = XPathFactory.newInstance().newXPath();
+
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        try {
+            xPathExpression = xPath.compile(expression);
+        } catch (XPathExpressionException e) {
+            throw new ESBException(e);
+        }
+
+        try {
+            xform = TransformerFactory.newInstance().newTransformer();
+            xform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes"); // optional
+            xform.setOutputProperty(OutputKeys.INDENT, "yes"); // optional
+        } catch (TransformerConfigurationException e) {
+            throw new ESBException(e);
+        }
     }
 
     @Override
@@ -54,19 +73,34 @@ public class XPathComponent implements ProcessorSync {
         InputStream fileInputStream = new ByteArrayInputStream(payload.getBytes());
         try {
             Document xmlDocument = builder.parse(fileInputStream);
-            NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
-            return MessageBuilder.get().withJavaObject(nodeList).build();
-        } catch ( XPathExpressionException | SAXException | IOException e) {
+            NodeList nodeList = (NodeList) xPathExpression.evaluate(xmlDocument, XPathConstants.NODESET);
+
+            List<String> results = new ArrayList<>();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                String token = convertToString(nodeList.item(i));
+                results.add(token);
+            }
+            return MessageBuilder.get().withJavaObject(results).build();
+        } catch (XPathExpressionException | SAXException | IOException e) {
             throw new ESBException(e);
         }
     }
 
     @Override
     public void dispose() {
-
     }
 
     public void setExpression(String expression) {
         this.expression = expression;
+    }
+
+    private String convertToString(Node element) {
+        StringWriter buf = new StringWriter();
+        try {
+            xform.transform(new DOMSource(element), new StreamResult(buf));
+            return buf.toString();
+        } catch (TransformerException e) {
+            throw new ESBException(e);
+        }
     }
 }

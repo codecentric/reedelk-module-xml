@@ -19,13 +19,6 @@
           "whenDescriptors": []
         }
       ]
-    },
-    {
-      "hidden": false,
-      "displayName": "XML Node To String",
-      "fullyQualifiedName": "com.reedelk.xml.component.XmlNodeToString",
-      "componentType": "PROCESSOR",
-      "componentPropertyDescriptors": []
     }
   ],
   "autocompleteContributorDescriptors": []
