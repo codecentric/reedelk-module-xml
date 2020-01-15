@@ -1,0 +1,8 @@
+<ns2:bookStore xmlns:ns2="http://bookstore.com/schemes">
+    <ns2:book id="1">
+        <ns2:name>Data Structure</ns2:name>
+    </ns2:book>
+    <ns2:book id="2">
+        <ns2:name>Java Core</ns2:name>
+    </ns2:book>
+</ns2:bookStore>

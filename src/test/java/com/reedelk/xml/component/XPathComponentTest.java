@@ -1,5 +1,6 @@
 package com.reedelk.xml.component;
 
+import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -9,9 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,16 +26,9 @@ public class XPathComponentTest {
     private FlowContext context;
 
     @Test
-    void shouldDoSomething() {
+    void shouldCorrectlyMatchXPathUsingNamespace() {
         // Given
-        String xmlDocument = "<ns2:bookStore xmlns:ns2=\"http://bookstore.com/schemes\">\n" +
-                "    <ns2:book id=\"1\">\n" +
-                "        <ns2:name>Data Structure</ns2:name>\n" +
-                "    </ns2:book>\n" +
-                "    <ns2:book id=\"2\">\n" +
-                "        <ns2:name>Java Core</ns2:name>\n" +
-                "    </ns2:book>\n" +
-                "</ns2:bookStore>";
+        String xmlDocument = resourceAsString("/fixture/book_store.xml");
 
         Map<String,String> prefixNamespaces = new HashMap<>();
         prefixNamespaces.put("ns2", "http://bookstore.com/schemes");
@@ -52,7 +47,50 @@ public class XPathComponentTest {
         Message result = component.apply(message, context);
 
         // Then
-        System.out.println((Object)result.payload());
-        assertThat(result).isNotNull();
+        List<String> xPathResult = result.payload();
+        assertThat(xPathResult).containsExactlyInAnyOrder("Data Structure", "Java Core");
+    }
+
+    @Test
+    void shouldGetBookTitles() {
+        // Given
+        String xml = resourceAsString("/fixture/book_inventory.xml");
+        DynamicString xPathExpression = DynamicString.from("//book[@year>2001]/title/text()");
+
+        component.setExpression(xPathExpression);
+        component.initialize();
+
+        Message message = MessageBuilder.get().withText(xml).build();
+
+        // When
+        Message result = component.apply(message, context);
+
+        // Then
+        List<String> xPathResult = result.payload();
+        assertThat(xPathResult).containsExactlyInAnyOrder("Burning Tower");
+    }
+
+    @Test
+    void shouldCountAllBookTitles() {
+        // Given
+        String xml = resourceAsString("/fixture/book_inventory.xml");
+        DynamicString xPathExpression = DynamicString.from("count(//book/title)");
+
+        component.setExpression(xPathExpression);
+        component.initialize();
+
+        Message message = MessageBuilder.get().withText(xml).build();
+
+        // When
+        Message result = component.apply(message, context);
+
+        // Then
+        List<String> xPathResult = result.payload();
+        assertThat(xPathResult).containsExactlyInAnyOrder("3");
+    }
+
+    private String resourceAsString(String resourceFile) {
+        URL url = XPathComponentTest.class.getResource(resourceFile);
+        return FileUtils.ReadFromURL.asString(url);
     }
 }

@@ -28,7 +28,7 @@
     {
       "implementor": "com.reedelk.xml.component.XPathComponent",
       "description": "XPath Extract",
-      "expression": "#[\"//ns2:name[text() = '\" + message.attributes().queryParams.value[0] + \"']\"]",
+      "expression": "//name[text() = 'Data Structure']",
       "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
     },
     {

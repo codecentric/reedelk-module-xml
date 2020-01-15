@@ -11,24 +11,19 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
-import com.reedelk.xml.commons.XPathNamespaceContext;
+import net.sf.saxon.s9api.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.*;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -52,28 +47,30 @@ public class XPathComponent implements ProcessorSync {
     @Reference
     private ScriptEngineService scriptEngine;
 
-    private DocumentBuilder builder;
+    private DocumentBuilder documentBuilder;
     private XPathExpression xPathExpression;
     private Transformer xform;
-    private XPath xPath;
+    private XPathExecutable xPathExecutable;
+    private XPathCompiler xPathCompiler;
+    private Processor processor;
 
     @Override
     public void initialize() {
-        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-        builderFactory.setNamespaceAware(true);
-        try {
-            builder = builderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new ESBException(e);
-        }
+        processor = new Processor(false);
+        documentBuilder = processor.newDocumentBuilder();
 
-        xPath = XPathFactory.newInstance().newXPath();
-        configureNamespaceContext(xPath);
+        xPathCompiler = processor.newXPathCompiler();
+        configureNamespaceContext();
+
+
+        // If it is not a script we can pre-compile it, if it is a script
+        // we cannot do it and we must re-evaluate it every time.
         if (!expression.isScript()) {
             try {
-                String xPathExpressionValue = expression.value(); // TODO: Check if not null
-                xPathExpression = xPath.compile(xPathExpressionValue);
-            } catch (XPathExpressionException e) {
+                // TODO: Check if not null and throw suitable exception.
+                String xPathExpressionValue = expression.value();
+                xPathExecutable = xPathCompiler.compile(xPathExpressionValue);
+            } catch (SaxonApiException e) {
                 throw new ESBException(e);
             }
         }
@@ -94,29 +91,34 @@ public class XPathComponent implements ProcessorSync {
 
         InputStream fileInputStream = new ByteArrayInputStream(payload.getBytes());
         try {
-            Document xmlDocument = builder.parse(fileInputStream);
+            XdmNode node = documentBuilder.build(new StreamSource(fileInputStream));
 
-            NodeList nodeList = evaluate(xmlDocument, flowContext, message);
+            XdmValue nodeList = evaluate(node, flowContext, message);
 
             List<String> results = new ArrayList<>();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                String token = convertToString(nodeList.item(i));
-                results.add(token);
-            }
+            nodeList.stream().forEach((Consumer<XdmItem>) xdmItem ->
+                    results.add(xdmItem.toString()));
             return MessageBuilder.get().withJavaObject(results).build();
-        } catch (XPathExpressionException | SAXException | IOException e) {
+        } catch (XPathExpressionException | SaxonApiException e) {
             throw new ESBException(e);
         }
     }
 
-    private NodeList evaluate(Document xmlDocument, FlowContext context, Message message) throws XPathExpressionException {
+    private XdmValue evaluate(XdmNode xmlDocument, FlowContext context, Message message) throws XPathExpressionException {
         if (expression.isScript()) {
-            String evaluated = scriptEngine.evaluate(expression, context, message).orElse(null);
-            XPathExpression expression = xPath.compile(evaluated);
-            return (NodeList) expression.evaluate(xmlDocument, XPathConstants.NODESET);
+            //String evaluated = scriptEngine.evaluate(expression, context, message).orElse(null);
+            //XPathExpression expression = x.compile(evaluated);
+            //return (NodeList) expression.evaluate(xmlDocument, XPathConstants.NODESET);
+            return null;
 
         } else {
-            return (NodeList) xPathExpression.evaluate(xmlDocument, XPathConstants.NODESET);
+            XPathSelector load = xPathExecutable.load();
+            try {
+                load.setContextItem(xmlDocument);
+                return load.evaluate();
+            } catch (SaxonApiException e) {
+                throw new ESBException(e);
+            }
         }
     }
 
@@ -128,12 +130,12 @@ public class XPathComponent implements ProcessorSync {
         this.configuration = configuration;
     }
 
-    private void configureNamespaceContext(XPath xPath) {
+    private void configureNamespaceContext() {
         Optional.ofNullable(configuration).ifPresent(config -> {
             Map<String, String> prefixNamespaceMap = configuration.getPrefixNamespaceMap();
             if (prefixNamespaceMap != null) {
-                XPathNamespaceContext context = new XPathNamespaceContext(prefixNamespaceMap);
-                xPath.setNamespaceContext(context);
+                prefixNamespaceMap.forEach((prefix, namespace) ->
+                        xPathCompiler.declareNamespace(prefix, namespace));
             }
         });
     }
