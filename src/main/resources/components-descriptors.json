@@ -2,18 +2,49 @@
   "componentDescriptors": [
     {
       "hidden": false,
-      "displayName": "XPath",
+      "displayName": "XPath Extract",
       "fullyQualifiedName": "com.reedelk.xml.component.XPathComponent",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
+          "hintValue": "//book[@year\u003e2001]/title/text()",
           "displayName": "XPath Expression",
           "propertyName": "expression",
+          "defaultValue": "",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
+            "instance": {
+              "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
+            }
+          },
+          "whenDescriptors": []
+        },
+        {
+          "displayName": "Context",
+          "propertyName": "configuration",
           "defaultValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
-            "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
+            "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
-              "type": "java.lang.String"
+              "shared": "YES",
+              "collapsible": "NO",
+              "typeFullyQualifiedName": "com.reedelk.xml.component.XPathConfiguration",
+              "objectProperties": [
+                {
+                  "displayName": "Prefix \u003e Namespace",
+                  "propertyName": "prefixNamespaceMap",
+                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyType": {
+                    "classname": "com.reedelk.module.descriptor.model.TypeMapDescriptor",
+                    "instance": {
+                      "tabGroup": "Namespace Context",
+                      "type": "java.util.Map"
+                    }
+                  },
+                  "whenDescriptors": []
+                }
+              ],
+              "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
           "whenDescriptors": []

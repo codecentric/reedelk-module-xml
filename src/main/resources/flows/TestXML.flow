@@ -21,8 +21,9 @@
     },
     {
       "implementor": "com.reedelk.xml.component.XPathComponent",
-      "description": "XPath",
-      "expression": "//author[contains(., 'Neal')]"
+      "description": "XPath Extract",
+      "expression": "//ns2:bookStore/ns2:book/ns2:name/text()",
+      "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
     },
     {
       "implementor": "com.reedelk.core.component.payload.PayloadToString",

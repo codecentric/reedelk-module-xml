@@ -1,13 +1,19 @@
 package com.reedelk.xml.component;
 
+import com.reedelk.runtime.api.annotation.Default;
 import com.reedelk.runtime.api.annotation.ESBComponent;
+import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.script.ScriptEngineService;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
+import com.reedelk.xml.commons.XPathNamespaceContext;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -27,14 +33,24 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 @ESBComponent("XPath Extract")
 @Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
 public class XPathComponent implements ProcessorSync {
 
-    @Property("XPath Expression")
-    private String expression;
+    @Reference
+    private ScriptEngineService scriptEngine;
 
+    @Property("XPath Expression")
+    @Default("")
+    @Hint("//book[@year>2001]/title/text()")
+    private DynamicString expression;
+
+    @Property("Context")
+    private XPathConfiguration configuration;
 
     private DocumentBuilder builder;
     private XPathExpression xPathExpression;
@@ -49,11 +65,14 @@ public class XPathComponent implements ProcessorSync {
             throw new ESBException(e);
         }
 
-        XPath xPath = XPathFactory.newInstance().newXPath();
-        try {
-            xPathExpression = xPath.compile(expression);
-        } catch (XPathExpressionException e) {
-            throw new ESBException(e);
+        if (!expression.isScript()) {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            configureNamespaceContext(xPath);
+            try {
+                xPathExpression = xPath.compile(expression.value());
+            } catch (XPathExpressionException e) {
+                throw new ESBException(e);
+            }
         }
 
         try {
@@ -86,12 +105,22 @@ public class XPathComponent implements ProcessorSync {
         }
     }
 
-    @Override
-    public void dispose() {
+    public void setExpression(DynamicString expression) {
+        this.expression = expression;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public void setConfiguration(XPathConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    private void configureNamespaceContext(XPath xPath) {
+        Optional.ofNullable(configuration).ifPresent(config -> {
+            Map<String, String> prefixNamespaceMap = configuration.getPrefixNamespaceMap();
+            if (prefixNamespaceMap != null) {
+                XPathNamespaceContext context = new XPathNamespaceContext(prefixNamespaceMap);
+                xPath.setNamespaceContext(context);
+            }
+        });
     }
 
     private String convertToString(Node element) {
