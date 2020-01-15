@@ -14,13 +14,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -28,7 +22,7 @@ import java.io.*;
 
 @ESBComponent("XSLT Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
-public class XSLTResource implements ProcessorSync {
+public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
@@ -40,29 +34,11 @@ public class XSLTResource implements ProcessorSync {
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 
-    private DocumentBuilder builder;
-    private Transformer transformer;
-
     @Override
     public void initialize() {
-        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-        builderFactory.setNamespaceAware(true);
-        try {
-            builder = builderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new ESBException(e);
-        }
-
-        // Use a Transformer for output
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
         String xslt = StreamUtils.FromString.consume(resourceFile.data());
         StreamSource style = new StreamSource(new StringReader(xslt));
-
-        try {
-            transformer = transformerFactory.newTransformer(style);
-        } catch (TransformerConfigurationException e) {
-            throw new ESBException(e);
-        }
+        initializeWith(style);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.reedelk.xml.component;
 
-import com.reedelk.runtime.api.annotation.ESBComponent;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.PropertyInfo;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
@@ -18,6 +16,12 @@ public class XSLTDynamicResource implements ProcessorSync {
     @PropertyInfo("The local project's XSL style sheet.")
     private DynamicResource resourceFile;
 
+    @Property("Mime type")
+    @MimeTypeCombo
+    @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
+    @PropertyInfo("Sets mime type of the transformed payload.")
+    private String mimeType;
+
     @Override
     public Message apply(Message message, FlowContext flowContext) {
         return null;
@@ -25,5 +29,9 @@ public class XSLTDynamicResource implements ProcessorSync {
 
     public void setResourceFile(DynamicResource resourceFile) {
         this.resourceFile = resourceFile;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 }
