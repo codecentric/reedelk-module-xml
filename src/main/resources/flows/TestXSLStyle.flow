@@ -20,7 +20,7 @@
       }
     },
     {
-      "implementor": "com.reedelk.xml.component.XSLTTransform",
+      "implementor": "com.reedelk.xml.component.XSLTResource",
       "description": "Transforming stuff",
       "resourceFile": "converter.xsl",
       "mimeType": "text/html"

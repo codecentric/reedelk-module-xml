@@ -26,15 +26,13 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
-@ESBComponent("XSLT Transform")
-@Component(service = XSLTTransform.class, scope = ServiceScope.PROTOTYPE)
-public class XSLTTransform implements ProcessorSync {
+@ESBComponent("XSLT Resource")
+@Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
+public class XSLTResource implements ProcessorSync {
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
     private ResourceText resourceFile;
-
-
 
     @Property("Mime type")
     @MimeTypeCombo

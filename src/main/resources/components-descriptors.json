@@ -53,8 +53,50 @@
     },
     {
       "hidden": false,
-      "displayName": "XSLT Transform",
-      "fullyQualifiedName": "com.reedelk.xml.component.XSLTTransform",
+      "displayName": "XSLT Dynamic Resource",
+      "fullyQualifiedName": "com.reedelk.xml.component.XSLTDynamicResource",
+      "componentType": "PROCESSOR",
+      "componentPropertyDescriptors": [
+        {
+          "displayName": "XSL style sheet",
+          "propertyName": "resourceFile",
+          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyInfo": "The local project\u0027s XSL style sheet.",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
+            "instance": {
+              "type": "com.reedelk.runtime.api.resource.DynamicResource"
+            }
+          },
+          "whenDescriptors": []
+        }
+      ]
+    },
+    {
+      "hidden": false,
+      "displayName": "XSLT File",
+      "fullyQualifiedName": "com.reedelk.xml.component.XSLTFile",
+      "componentType": "PROCESSOR",
+      "componentPropertyDescriptors": [
+        {
+          "displayName": "XSLT File",
+          "propertyName": "fileName",
+          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyInfo": "The path and name of the file to be read from the file system.",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
+            "instance": {
+              "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
+            }
+          },
+          "whenDescriptors": []
+        }
+      ]
+    },
+    {
+      "hidden": false,
+      "displayName": "XSLT Resource",
+      "fullyQualifiedName": "com.reedelk.xml.component.XSLTResource",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
