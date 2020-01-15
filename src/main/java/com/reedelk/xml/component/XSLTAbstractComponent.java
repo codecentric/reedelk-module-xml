@@ -24,7 +24,6 @@ import java.io.StringWriter;
 abstract class XSLTAbstractComponent {
 
     protected DocumentBuilder builder;
-    protected Transformer transformer;
 
     protected void initializeDocumentBuilder() {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -36,10 +35,10 @@ abstract class XSLTAbstractComponent {
         }
     }
 
-    protected void initializeTransformerWith(StreamSource styleSource) {
+    protected Transformer createTransformerWith(StreamSource styleSource) {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         try {
-            transformer = transformerFactory.newTransformer(styleSource);
+            return transformerFactory.newTransformer(styleSource);
         } catch (TransformerConfigurationException e) {
             throw new ESBException(e);
         }

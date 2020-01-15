@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -19,9 +20,6 @@ import java.io.StringReader;
 @ESBComponent("XSLT Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
-
-    @Reference
-    private ConverterService converterService;
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
@@ -33,12 +31,17 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 
+    @Reference
+    private ConverterService converterService;
+
+    private Transformer transformer;
+
     @Override
     public void initialize() {
         initializeDocumentBuilder();
         String xslt = StreamUtils.FromString.consume(resourceFile.data());
         StreamSource style = new StreamSource(new StringReader(xslt));
-        initializeTransformerWith(style);
+        transformer = createTransformerWith(style);
     }
 
     @Override

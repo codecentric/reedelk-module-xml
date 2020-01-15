@@ -1,16 +1,28 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
+import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.resource.DynamicResource;
+import com.reedelk.runtime.api.resource.ResourceFile;
+import com.reedelk.runtime.api.resource.ResourceService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.reactivestreams.Publisher;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
 
 @ESBComponent("XSLT Dynamic Resource")
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
-public class XSLTDynamicResource implements ProcessorSync {
+public class XSLTDynamicResource extends XSLTAbstractComponent implements ProcessorSync {
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
@@ -22,9 +34,37 @@ public class XSLTDynamicResource implements ProcessorSync {
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 
+    @Reference
+    private ResourceService resourceService;
+    @Reference
+    private ConverterService converterService;
+
+    @Override
+    public void initialize() {
+        initializeDocumentBuilder();
+    }
+
     @Override
     public Message apply(Message message, FlowContext flowContext) {
-        return null;
+        Object payload = message.payload();
+
+        byte[] payloadBytes = converterService.convert(payload, byte[].class);
+
+        ResourceFile<byte[]> resourceFile = resourceService.find(this.resourceFile, 65533, flowContext, message);
+
+        Publisher<byte[]> data = resourceFile.data();
+
+        Publisher<String> xsltStream = StreamUtils.FromByteArray.asStringStream(data);
+
+        String xslt = StreamUtils.FromString.consume(xsltStream);
+
+        StreamSource style = new StreamSource(new StringReader(xslt));
+
+        Transformer transformer = createTransformerWith(style);
+
+        InputStream fileInputStream = new ByteArrayInputStream(payloadBytes);
+
+        return transform(fileInputStream, transformer, mimeType);
     }
 
     public void setResourceFile(DynamicResource resourceFile) {
