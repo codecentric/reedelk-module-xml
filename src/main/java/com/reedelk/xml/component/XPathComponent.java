@@ -41,9 +41,6 @@ import java.util.function.Consumer;
 @Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
 public class XPathComponent implements ProcessorSync {
 
-    @Reference
-    private ScriptEngineService scriptEngine;
-
     @Property("XPath Expression")
     @Default("")
     @Hint("//book[@year>2001]/title/text()")
@@ -51,6 +48,9 @@ public class XPathComponent implements ProcessorSync {
 
     @Property("Context")
     private XPathConfiguration configuration;
+
+    @Reference
+    private ScriptEngineService scriptEngine;
 
     private DocumentBuilder builder;
     private XPathExpression xPathExpression;

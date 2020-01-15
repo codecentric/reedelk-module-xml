@@ -24,6 +24,8 @@ import java.io.StringReader;
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTDynamicResource extends XSLTAbstractComponent implements ProcessorSync {
 
+    public static final int DEFAULT_READ_BUFFER_SIZE = 65536;
+
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
     private DynamicResource resourceFile;
@@ -50,7 +52,11 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
         byte[] payloadBytes = converterService.convert(payload, byte[].class);
 
-        ResourceFile<byte[]> resourceFile = resourceService.find(this.resourceFile, 65533, flowContext, message);
+        InputStream document = new ByteArrayInputStream(payloadBytes);
+
+        // TODO: 0.7 Add method where don't have to specify read buffer size
+        ResourceFile<byte[]> resourceFile =
+                resourceService.find(this.resourceFile, DEFAULT_READ_BUFFER_SIZE, flowContext, message);
 
         Publisher<byte[]> data = resourceFile.data();
 
@@ -62,9 +68,7 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
         Transformer transformer = createTransformerWith(style);
 
-        InputStream fileInputStream = new ByteArrayInputStream(payloadBytes);
-
-        return transform(fileInputStream, transformer, mimeType);
+        return transform(document, transformer, mimeType);
     }
 
     public void setResourceFile(DynamicResource resourceFile) {
