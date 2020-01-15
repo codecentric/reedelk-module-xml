@@ -1,5 +1,8 @@
 package com.reedelk.xml.commons;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
+
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import java.util.ArrayList;

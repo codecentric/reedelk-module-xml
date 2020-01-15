@@ -55,10 +55,12 @@ public class XPathComponent implements ProcessorSync {
     private DocumentBuilder builder;
     private XPathExpression xPathExpression;
     private Transformer xform;
+    private XPath xPath;
 
     @Override
     public void initialize() {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+        builderFactory.setNamespaceAware(true);
         try {
             builder = builderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -66,7 +68,7 @@ public class XPathComponent implements ProcessorSync {
         }
 
         if (!expression.isScript()) {
-            XPath xPath = XPathFactory.newInstance().newXPath();
+            xPath = XPathFactory.newInstance().newXPath();
             configureNamespaceContext(xPath);
             try {
                 xPathExpression = xPath.compile(expression.value());
@@ -92,7 +94,8 @@ public class XPathComponent implements ProcessorSync {
         InputStream fileInputStream = new ByteArrayInputStream(payload.getBytes());
         try {
             Document xmlDocument = builder.parse(fileInputStream);
-            NodeList nodeList = (NodeList) xPathExpression.evaluate(xmlDocument, XPathConstants.NODESET);
+
+            NodeList nodeList = evaluate(xmlDocument, flowContext, message);
 
             List<String> results = new ArrayList<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -102,6 +105,17 @@ public class XPathComponent implements ProcessorSync {
             return MessageBuilder.get().withJavaObject(results).build();
         } catch (XPathExpressionException | SAXException | IOException e) {
             throw new ESBException(e);
+        }
+    }
+
+    private NodeList evaluate(Document xmlDocument, FlowContext context, Message message) throws XPathExpressionException {
+        if (expression.isScript()) {
+            String evaluated = scriptEngine.evaluate(expression, context, message).orElse(null);
+            XPathExpression expression = xPath.compile(evaluated);
+            return (NodeList) expression.evaluate(xmlDocument, XPathConstants.NODESET);
+
+        } else {
+            return (NodeList) xPathExpression.evaluate(xmlDocument, XPathConstants.NODESET);
         }
     }
 

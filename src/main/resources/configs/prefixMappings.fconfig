@@ -1,6 +1,0 @@
-{
-  "id": "10ec95de-be07-4275-b206-2c46ed78e5c8",
-  "title": "Prefix Namespace mappings",
-  "implementor": "com.reedelk.xml.component.NamespaceContext",
-  "prefixNamespaceMap": {"ns2": "http://bookstore.com/schemes"}
-}
