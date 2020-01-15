@@ -25,7 +25,7 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
     @PropertyInfo("The path and name of the file to be read from the file system.")
     private DynamicString fileName;
 
-    @Property("Mime type")
+    @Property("Output Mime type")
     @MimeTypeCombo
     @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
     @PropertyInfo("Sets mime type of the transformed payload.")

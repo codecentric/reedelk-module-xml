@@ -71,7 +71,8 @@ public class XPathComponent implements ProcessorSync {
         configureNamespaceContext(xPath);
         if (!expression.isScript()) {
             try {
-                xPathExpression = xPath.compile(expression.value());
+                String xPathExpressionValue = expression.value(); // TODO: Check if not null
+                xPathExpression = xPath.compile(xPathExpressionValue);
             } catch (XPathExpressionException e) {
                 throw new ESBException(e);
             }

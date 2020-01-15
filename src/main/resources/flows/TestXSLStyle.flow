@@ -28,17 +28,7 @@
     {
       "implementor": "com.reedelk.xml.component.XSLTDynamicResource",
       "description": "XSLT Dynamic Resource",
-      "resourceFile": "#[]",
-      "mimeType": "text/xml"
-    },
-    {
-      "implementor": "com.reedelk.xml.component.XPathComponent",
-      "description": "XPath Extract",
-      "expression": ""
-    },
-    {
-      "implementor": "com.reedelk.xml.component.XSLTFile",
-      "description": "XSLT File",
+      "resourceFile": "#['converter.xsl']",
       "mimeType": "text/xml"
     }
   ]

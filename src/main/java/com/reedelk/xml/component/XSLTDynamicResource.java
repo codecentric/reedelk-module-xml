@@ -30,7 +30,7 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
     @PropertyInfo("The local project's XSL style sheet.")
     private DynamicResource resourceFile;
 
-    @Property("Mime type")
+    @Property("Output Mime type")
     @MimeTypeCombo
     @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
     @PropertyInfo("Sets mime type of the transformed payload.")

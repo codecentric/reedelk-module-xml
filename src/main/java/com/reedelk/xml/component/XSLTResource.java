@@ -25,7 +25,7 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
     @PropertyInfo("The local project's XSL style sheet.")
     private ResourceText resourceFile;
 
-    @Property("Mime type")
+    @Property("Output Mime type")
     @MimeTypeCombo
     @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
     @PropertyInfo("Sets mime type of the transformed payload.")
