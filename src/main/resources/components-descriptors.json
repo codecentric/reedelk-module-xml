@@ -50,6 +50,27 @@
           "whenDescriptors": []
         }
       ]
+    },
+    {
+      "hidden": false,
+      "displayName": "XSLT Transform",
+      "fullyQualifiedName": "com.reedelk.xml.component.XSLTTransform",
+      "componentType": "PROCESSOR",
+      "componentPropertyDescriptors": [
+        {
+          "displayName": "XSL style sheet",
+          "propertyName": "resourceFile",
+          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyInfo": "The local project\u0027s XSL style sheet.",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypeResourceTextDescriptor",
+            "instance": {
+              "type": "com.reedelk.runtime.api.resource.ResourceText"
+            }
+          },
+          "whenDescriptors": []
+        }
+      ]
     }
   ],
   "autocompleteContributorDescriptors": []

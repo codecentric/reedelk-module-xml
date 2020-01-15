@@ -1,0 +1,28 @@
+{
+  "id": "c7fad392-75df-46a8-9eae-30c5f1cd9b67",
+  "title": "Test XSL Style",
+  "description": "Test XSL Style Flow",
+  "flow": [
+    {
+      "implementor": "com.reedelk.rest.component.RestListener",
+      "description": "REST Listener",
+      "configuration": {"ref": "85f66f16-c076-4979-a237-3206a98c3568"},
+      "path": "/xslt",
+      "method": "POST",
+      "streaming": "AUTO",
+      "response": {
+        "body": "#[message.payload()]",
+        "status": 200
+      },
+      "errorResponse": {
+        "body": "#[error]",
+        "status": 500
+      }
+    },
+    {
+      "implementor": "com.reedelk.xml.component.XSLTTransform",
+      "description": "XSLT Transform",
+      "resourceFile": "converter.xsl"
+    }
+  ]
+}
