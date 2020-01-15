@@ -1,14 +1,13 @@
 package com.reedelk.xml.component;
 
-import com.reedelk.runtime.api.annotation.ESBComponent;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.PropertyInfo;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -35,7 +34,11 @@ public class XSLTTransform implements ProcessorSync {
     @PropertyInfo("The local project's XSL style sheet.")
     private ResourceText resourceFile;
 
-    @Property("Mime Type")
+    @Property("Mime type")
+    @MimeTypeCombo
+    @Default(MimeType.MIME_TYPE_TEXT_PLAIN)
+    @PropertyInfo("Sets mime type of the transformed payload.")
+    private String mimeType;
 
     private DocumentBuilder builder;
     private Transformer transformer;
@@ -52,9 +55,7 @@ public class XSLTTransform implements ProcessorSync {
 
         // Use a Transformer for output
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
         String xslt = StreamUtils.FromString.consume(resourceFile.data());
-
         StreamSource style = new StreamSource(new StringReader(xslt));
 
         try {
@@ -78,7 +79,9 @@ public class XSLTTransform implements ProcessorSync {
 
             transformer.transform(new DOMSource(xmlDocument), new StreamResult(buf));
 
-            return MessageBuilder.get().withText(buf.toString()).build();
+            MimeType mimeType = MimeType.parse(this.mimeType);
+
+            return MessageBuilder.get().withText(buf.toString()).mimeType(mimeType).build();
 
         } catch (SAXException | IOException | TransformerException e) {
             throw new ESBException(e);
@@ -87,5 +90,9 @@ public class XSLTTransform implements ProcessorSync {
 
     public void setResourceFile(ResourceText resourceFile) {
         this.resourceFile = resourceFile;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 }

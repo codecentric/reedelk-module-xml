@@ -21,8 +21,9 @@
     },
     {
       "implementor": "com.reedelk.xml.component.XSLTTransform",
-      "description": "XSLT Transform",
-      "resourceFile": "converter.xsl"
+      "description": "Transforming stuff",
+      "resourceFile": "converter.xsl",
+      "mimeType": "text/xml"
     }
   ]
 }
