@@ -23,7 +23,7 @@
       "implementor": "com.reedelk.xml.component.XSLTTransform",
       "description": "Transforming stuff",
       "resourceFile": "converter.xsl",
-      "mimeType": "text/xml"
+      "mimeType": "text/html"
     }
   ]
 }

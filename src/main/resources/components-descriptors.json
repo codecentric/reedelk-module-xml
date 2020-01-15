@@ -73,7 +73,7 @@
         {
           "displayName": "Mime type",
           "propertyName": "mimeType",
-          "defaultValue": "text/plain",
+          "defaultValue": "text/xml",
           "propertyInfo": "Sets mime type of the transformed payload.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
