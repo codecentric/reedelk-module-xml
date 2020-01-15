@@ -3,26 +3,25 @@ package com.reedelk.xml.component;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
-import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
 
 @ESBComponent("XSLT Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
+
+    @Reference
+    private ConverterService converterService;
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
@@ -36,32 +35,21 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
 
     @Override
     public void initialize() {
+        initializeDocumentBuilder();
         String xslt = StreamUtils.FromString.consume(resourceFile.data());
         StreamSource style = new StreamSource(new StringReader(xslt));
-        initializeWith(style);
+        initializeTransformerWith(style);
     }
 
     @Override
     public Message apply(Message message, FlowContext flowContext) {
+        Object payload = message.payload();
 
-        String payload = message.payload();
+        byte[] payloadBytes = converterService.convert(payload, byte[].class);
 
-        InputStream fileInputStream = new ByteArrayInputStream(payload.getBytes());
+        InputStream fileInputStream = new ByteArrayInputStream(payloadBytes);
 
-        try {
-            Document xmlDocument = builder.parse(fileInputStream);
-
-            StringWriter buf = new StringWriter();
-
-            transformer.transform(new DOMSource(xmlDocument), new StreamResult(buf));
-
-            MimeType mimeType = MimeType.parse(this.mimeType);
-
-            return MessageBuilder.get().withText(buf.toString()).mimeType(mimeType).build();
-
-        } catch (SAXException | IOException | TransformerException e) {
-            throw new ESBException(e);
-        }
+        return transform(fileInputStream, transformer, mimeType);
     }
 
     public void setResourceFile(ResourceText resourceFile) {
