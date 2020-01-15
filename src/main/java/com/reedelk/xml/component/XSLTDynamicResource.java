@@ -14,11 +14,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 import org.reactivestreams.Publisher;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
 @ESBComponent("XSLT From Resource Dynamic")
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
@@ -64,11 +61,7 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
         String xslt = StreamUtils.FromString.consume(xsltStream);
 
-        StreamSource style = new StreamSource(new StringReader(xslt));
-
-        Transformer transformer = createTransformerWith(style);
-
-        return transform(document, transformer, mimeType);
+        return transform(document, xslt, mimeType);
     }
 
     public void setResourceFile(DynamicResource resourceFile) {

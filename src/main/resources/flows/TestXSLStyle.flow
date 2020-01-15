@@ -20,8 +20,8 @@
       }
     },
     {
-      "implementor": "com.reedelk.xml.component.XSLTDynamicResource",
-      "description": "XSLT From Resource Dynamic",
+      "implementor": "com.reedelk.xml.component.XSLTResource",
+      "description": "XSLT From Resource",
       "resourceFile": "xslt/converter.xsl",
       "mimeType": "text/xml"
     }

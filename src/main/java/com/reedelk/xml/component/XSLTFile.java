@@ -13,9 +13,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @ESBComponent("XSLT From File")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
@@ -46,8 +48,6 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
 
         return scriptEngine.evaluate(fileName, flowContext, message).map(evaluatedFilePath -> {
 
-            File initialFile = new File(evaluatedFilePath);
-
             try {
                 Object payload = message.payload();
 
@@ -55,11 +55,11 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
 
                 InputStream document = new ByteArrayInputStream(payloadBytes);
 
-                Transformer transformerWith = createTransformerWith(new StreamSource(new FileReader(initialFile)));
+                String xslt = new String(Files.readAllBytes(Paths.get(evaluatedFilePath)));
 
-                return transform(document, transformerWith, mimeType);
+                return transform(document, xslt, mimeType);
 
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 throw new ESBException(e);
             }
 

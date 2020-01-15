@@ -4,57 +4,64 @@ import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import net.sf.saxon.s9api.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 abstract class XSLTAbstractComponent {
 
-    protected DocumentBuilder builder;
+    protected DocumentBuilder documentBuilder;
+    protected XsltCompiler xsltCompiler;
+    protected Processor saxonProc;
 
     protected void initializeDocumentBuilder() {
-        DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-        builderFactory.setNamespaceAware(true);
+        saxonProc = new Processor(false);
+        documentBuilder = saxonProc.newDocumentBuilder();
+        xsltCompiler = saxonProc.newXsltCompiler();
+    }
+
+    protected XsltTransformer createTransformerWith(StreamSource styleSource) {
         try {
-            builder = builderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
+            XdmNode stylesheet = documentBuilder.build(styleSource);
+            XsltExecutable foStyle = xsltCompiler.compile(stylesheet.asSource());
+            return foStyle.load();
+        } catch (SaxonApiException e) {
             throw new ESBException(e);
         }
     }
 
-    protected Transformer createTransformerWith(StreamSource styleSource) {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    protected Message transform(InputStream documentInputStream, String xsltDocument, String outputMimeType) {
         try {
-            return transformerFactory.newTransformer(styleSource);
-        } catch (TransformerConfigurationException e) {
+            StreamSource style = new StreamSource(new StringReader(xsltDocument));
+            XdmNode stylesheet = documentBuilder.build(style);
+            XsltExecutable foStyle = xsltCompiler.compile(stylesheet.asSource());
+            XsltTransformer foTransformer = foStyle.load();
+            return transform(documentInputStream, foTransformer, outputMimeType);
+        } catch (SaxonApiException e) {
             throw new ESBException(e);
         }
     }
 
-    protected Message transform(InputStream documentInputStream, Transformer transformer, String outputMimeType) {
+    protected Message transform(InputStream documentInputStream, XsltTransformer foTransformer, String outputMimeType) {
         try {
-            Document xmlDocument = builder.parse(documentInputStream);
-            StringWriter output = new StringWriter();
-            transformer.transform(new DOMSource(xmlDocument), new StreamResult(output));
+            XdmNode inputDocument = documentBuilder.build(new StreamSource(documentInputStream));
+
+            StringWriter stringWriter = new StringWriter();
+            Serializer serializer = saxonProc.newSerializer(stringWriter);
+            foTransformer.setDestination(serializer);
+            foTransformer.setInitialContextNode(inputDocument);
+
+            foTransformer.transform();
+
+            foTransformer.close();
+
             MimeType mimeType = MimeType.parse(outputMimeType);
-            return MessageBuilder.get()
-                    .withText(output.toString())
-                    .mimeType(mimeType)
-                    .build();
-        } catch (SAXException | IOException | TransformerException e) {
+
+            return MessageBuilder.get().withText(stringWriter.toString()).mimeType(mimeType).build();
+        } catch (SaxonApiException e) {
             throw new ESBException(e);
         }
     }

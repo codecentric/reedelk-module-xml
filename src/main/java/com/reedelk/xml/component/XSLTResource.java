@@ -7,11 +7,11 @@ import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.resource.ResourceText;
+import net.sf.saxon.s9api.XsltTransformer;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
     @Reference
     private ConverterService converterService;
 
-    private Transformer transformer;
+    private XsltTransformer transformer;
 
     @Override
     public void initialize() {
