@@ -20,15 +20,9 @@
       }
     },
     {
-      "implementor": "com.reedelk.xml.component.XSLTResource",
-      "description": "Transforming stuff",
-      "resourceFile": "converter.xsl",
-      "mimeType": "text/html"
-    },
-    {
       "implementor": "com.reedelk.xml.component.XSLTDynamicResource",
-      "description": "XSLT Dynamic Resource",
-      "resourceFile": "#['converter.xsl']",
+      "description": "XSLT From Resource Dynamic",
+      "resourceFile": "xslt/converter.xsl",
       "mimeType": "text/xml"
     }
   ]
