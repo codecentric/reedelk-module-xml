@@ -67,9 +67,9 @@ public class XPathComponent implements ProcessorSync {
             throw new ESBException(e);
         }
 
+        xPath = XPathFactory.newInstance().newXPath();
+        configureNamespaceContext(xPath);
         if (!expression.isScript()) {
-            xPath = XPathFactory.newInstance().newXPath();
-            configureNamespaceContext(xPath);
             try {
                 xPathExpression = xPath.compile(expression.value());
             } catch (XPathExpressionException e) {

@@ -20,9 +20,15 @@
       }
     },
     {
+      "implementor": "com.reedelk.core.component.logger.LoggerComponent",
+      "description": "Logger",
+      "level": "INFO",
+      "message": "#[message.attributes().queryParams.value]"
+    },
+    {
       "implementor": "com.reedelk.xml.component.XPathComponent",
       "description": "XPath Extract",
-      "expression": "//ns2:bookStore/ns2:book/ns2:name/text()",
+      "expression": "#[\"//ns2:name[text() = '\" + message.attributes().queryParams.value[0] + \"']\"]",
       "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
     },
     {
