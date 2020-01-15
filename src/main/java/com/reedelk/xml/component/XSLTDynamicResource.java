@@ -20,7 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
 
-@ESBComponent("XSLT Dynamic Resource")
+@ESBComponent("XSLT From Resource Dynamic")
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTDynamicResource extends XSLTAbstractComponent implements ProcessorSync {
 

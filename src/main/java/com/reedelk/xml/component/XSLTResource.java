@@ -17,7 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
 
-@ESBComponent("XSLT Resource")
+@ESBComponent("XSLT From Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
 

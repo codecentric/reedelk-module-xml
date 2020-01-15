@@ -17,7 +17,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
-@ESBComponent("XSLT File")
+@ESBComponent("XSLT From File")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
 
