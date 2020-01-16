@@ -39,8 +39,8 @@ public class XPathEvaluate implements ProcessorSync {
     private DynamicString expression;
 
     @Property("XPath Context")
-    @PropertyInfo("The context configuration can be used when the XPath expression contains node" +
-            " names with namespace prefixes. The configuration allows to define the prefixes > namespaces mapping.")
+    @PropertyInfo("The context configuration can be used when the XPath expression uses prefixes in the definition." +
+            " The configuration allows to define the prefixes > namespaces mapping.")
     private XPathConfiguration configuration;
 
     @Reference

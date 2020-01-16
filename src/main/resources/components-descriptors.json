@@ -24,7 +24,7 @@
           "displayName": "XPath Context",
           "propertyName": "configuration",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The context configuration can be used when the XPath expression contains node names with namespace prefixes. The configuration allows to define the prefixes \u003e namespaces mapping.",
+          "propertyInfo": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
