@@ -20,16 +20,16 @@
       }
     },
     {
+      "implementor": "com.reedelk.xml.component.XPathComponent",
+      "description": "Extract text",
+      "expression": "//inventory/comment()",
+      "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
+    },
+    {
       "implementor": "com.reedelk.core.component.logger.LoggerComponent",
       "description": "Logger",
       "level": "INFO",
-      "message": "#[message.attributes().queryParams.value]"
-    },
-    {
-      "implementor": "com.reedelk.xml.component.XPathComponent",
-      "description": "XPath Extract",
-      "expression": "//name[text() = 'Data Structure']",
-      "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
+      "message": "#[message.payload()]"
     },
     {
       "implementor": "com.reedelk.core.component.payload.PayloadToString",
