@@ -35,7 +35,7 @@ class XSLTResourceTest extends AbstractTest {
     @Test
     void shouldTransformCorrectlyInputDocument() {
         // Given
-        ResourceText resourceText = spy(ResourceText.from("/xslt/sheet_sample.xml"));
+        ResourceText resourceText = spy(ResourceText.from("/xslt/stylesheet_sample.xsl"));
         component.setStyleSheetFile(resourceText);
 
         String styleSheet = TestUtils.resourceAsString("/fixture/stylesheet_sample.xsl");
