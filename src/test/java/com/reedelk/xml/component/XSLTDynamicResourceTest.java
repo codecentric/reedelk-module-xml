@@ -1,6 +1,7 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.commons.ModuleContext;
+import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.resource.DynamicResource;
@@ -13,9 +14,10 @@ import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class XSLTDynamicResourceText extends AbstractTest {
+public class XSLTDynamicResourceTest extends AbstractTest {
 
     private XSLTDynamicResource component;
 
@@ -27,6 +29,16 @@ public class XSLTDynamicResourceText extends AbstractTest {
         component = new XSLTDynamicResource();
         setUpMockConverterService(component);
         setComponentFieldWithObject(component, "resourceService", resourceService);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInitializedAndStyleSheetFileNotDefined() {
+        // When
+        ConfigurationException thrown = assertThrows(ConfigurationException.class,
+                () -> component.initialize());
+
+        // Expect
+        assertThat(thrown).isNotNull();
     }
 
     @Test
