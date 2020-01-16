@@ -72,7 +72,7 @@ public class XPathEvaluate implements ProcessorSync {
         Object xPathResult = evaluationResult.getResult();
 
         Map<String, Serializable> attributes = new HashMap<>();
-        attributes.put(XPathAttribute.XPATH_EXPRESSION, evaluationResult.getExpression());
+        XPathAttribute.XPATH_EXPRESSION.set(attributes, evaluationResult.getExpression());
 
         DefaultMessageAttributes responseAttributes
                 = new DefaultMessageAttributes(XPathEvaluate.class, attributes);

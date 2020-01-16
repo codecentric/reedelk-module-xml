@@ -2,8 +2,8 @@
   "componentDescriptors": [
     {
       "hidden": false,
-      "displayName": "XPath Extract",
-      "fullyQualifiedName": "com.reedelk.xml.component.XPathComponent",
+      "displayName": "XPath Evaluate",
+      "fullyQualifiedName": "com.reedelk.xml.component.XPathEvaluate",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {

@@ -1,5 +1,19 @@
 package com.reedelk.xml.xpath;
 
-public interface XPathAttribute {
-    String XPATH_EXPRESSION = "xPathExpression";
+import java.io.Serializable;
+import java.util.Map;
+
+public enum XPathAttribute {
+
+    XPATH_EXPRESSION("xPathExpression");
+
+    private final String attributeName;
+
+    XPathAttribute(String attributeName) {
+        this.attributeName = attributeName;
+    }
+
+    public void set(Map<String, Serializable> attributesMap, Serializable attributeValue) {
+        attributesMap.put(attributeName, attributeValue);
+    }
 }

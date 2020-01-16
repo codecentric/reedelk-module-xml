@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 public class XPathResultMapper {
 
+    private XPathResultMapper() {
+    }
+
     public static Object map(XdmValue result) {
         // Integer, Long, BigInteger, Boolean: primitive types are kept raw.
         if (result instanceof XdmAtomicValue) {

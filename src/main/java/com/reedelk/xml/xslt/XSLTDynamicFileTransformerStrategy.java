@@ -28,9 +28,8 @@ public class XSLTDynamicFileTransformerStrategy extends XSLTAbstractTransformer 
         return scriptEngine.evaluate(styleSheetFile, context, message).map(evaluatedStyleSheetPath -> {
 
             XsltTransformer transformer = null;
-            try {
 
-                FileInputStream styleSheetFileInputStream = new FileInputStream(evaluatedStyleSheetPath);
+            try (FileInputStream styleSheetFileInputStream = new FileInputStream(evaluatedStyleSheetPath)) {
 
                 StreamSource styleSheetSource = new StreamSource(styleSheetFileInputStream);
 
