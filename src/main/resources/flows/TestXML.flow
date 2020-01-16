@@ -20,7 +20,7 @@
       }
     },
     {
-      "implementor": "com.reedelk.xml.component.XPathComponent",
+      "implementor": "com.reedelk.xml.component.XPathEvaluate",
       "description": "Extract text",
       "expression": "#['boolean(/inventory/book/price[text() > ' + message.attributes().queryParams.price + '])']",
       "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
