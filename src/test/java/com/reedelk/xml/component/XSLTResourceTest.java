@@ -25,8 +25,8 @@ class XSLTResourceTest extends AbstractTest {
     @Test
     void shouldThrowExceptionWhenInitializedAndStyleSheetFileNotDefined() {
         // When
-        ConfigurationException thrown = assertThrows(ConfigurationException.class,
-                () -> component.initialize());
+        ConfigurationException thrown =
+                assertThrows(ConfigurationException.class, () -> component.initialize());
 
         // Expect
         assertThat(thrown).isNotNull();
