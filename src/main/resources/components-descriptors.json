@@ -60,10 +60,10 @@
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
-          "displayName": "XSL style sheet",
+          "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
           "defaultValue": "#[]",
-          "propertyInfo": "The local project\u0027s XSL style sheet.",
+          "propertyInfo": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder. A dynamic value might be used to define the XSLT stylesheet path.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -217,10 +217,10 @@
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
-          "displayName": "XSLT File",
+          "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The path and name of the file to be read from the file system.",
+          "propertyInfo": "The path on the file system of the XSLT stylesheet file. The file must be present on the file system otherwise an error will be thrown. A dynamic value might be used to define the XSLT stylesheet path.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -374,10 +374,10 @@
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
-          "displayName": "XSL style sheet",
+          "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "XSL style sheet. Must be a file present in the project\u0027s resources folder",
+          "propertyInfo": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeResourceTextDescriptor",
             "instance": {
