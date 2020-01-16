@@ -22,7 +22,7 @@
     {
       "implementor": "com.reedelk.xml.component.XPathComponent",
       "description": "Extract text",
-      "expression": "//inventory/comment()",
+      "expression": "#['//book[price<' + message.attributes().queryParams.price + ']/title/text()']",
       "configuration": {"ref": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057"}
     },
     {
