@@ -66,6 +66,7 @@ public class XPathComponent implements ProcessorSync {
 
         Map<String, Serializable> attributes = new HashMap<>();
         attributes.put(XPathAttribute.XPATH_EXPRESSION, evaluationResult.getExpression());
+
         DefaultMessageAttributes responseAttributes
                 = new DefaultMessageAttributes(XPathComponent.class, attributes);
 

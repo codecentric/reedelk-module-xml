@@ -5,6 +5,7 @@ import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageAttributes;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
@@ -134,6 +135,25 @@ public class XPathComponentTest {
             boolean existsBookWithPriceGreaterThan14 = result.payload();
             assertThat(existsBookWithPriceGreaterThan14).isTrue();
         }
+
+        @Test
+        void shouldAddCorrectAttributesInOutputMessage() {
+            // Given
+            String xml = resourceAsString("/fixture/book_inventory.xml");
+            DynamicString xPathExpression = DynamicString.from("//book[@year>2001]/title/text()");
+
+            component.setExpression(xPathExpression);
+            component.initialize();
+
+            Message message = MessageBuilder.get().withText(xml).build();
+
+            // When
+            Message result = component.apply(message, context);
+
+            // Then
+            MessageAttributes attributes = result.getAttributes();
+            assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
+        }
     }
 
     @Nested
@@ -189,6 +209,30 @@ public class XPathComponentTest {
             // Then
             Object payload = result.payload();
             assertThat(payload).isNull();
+        }
+
+        @Test
+        void shouldAddCorrectAttributesInOutputMessage() {
+            // Given
+            String xml = resourceAsString("/fixture/book_inventory.xml");
+            DynamicString xPathExpression =
+                    DynamicString.from("#['//book[@year>2001]/title/text()']", moduleContext);
+
+            component.setExpression(xPathExpression);
+            component.initialize();
+
+            Message message = MessageBuilder.get().withText(xml).build();
+
+            doReturn(Optional.of("//book[@year>2001]/title/text()"))
+                    .when(scriptEngineService)
+                    .evaluate(xPathExpression, context, message);
+
+            // When
+            Message result = component.apply(message, context);
+
+            // Then
+            MessageAttributes attributes = result.getAttributes();
+            assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
         }
     }
 
