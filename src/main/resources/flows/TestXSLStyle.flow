@@ -20,9 +20,9 @@
       }
     },
     {
-      "implementor": "com.reedelk.xml.component.XSLTDynamicResource",
-      "description": "XSLT From Resource Dynamic",
-      "styleSheetFile": "#[message.attributes().queryParams.xslt[0]]",
+      "implementor": "com.reedelk.xml.component.XSLTFile",
+      "description": "XSLT From File",
+      "styleSheetFile": "#['/Users/lorenzo/Desktop/' + message.attributes().queryParams.file[0]]",
       "mimeType": "text/xml"
     }
   ]

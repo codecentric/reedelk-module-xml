@@ -13,11 +13,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @ESBComponent("XSLT From File")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
@@ -46,24 +46,25 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
     @Override
     public Message apply(Message message, FlowContext flowContext) {
 
-        return scriptEngine.evaluate(styleSheetFile, flowContext, message).map(evaluatedFilePath -> {
+        return scriptEngine.evaluate(styleSheetFile, flowContext, message).map(evaluatedStyleSheetPath -> {
+                    try {
+                        Object payload = message.payload();
 
-            try {
-                Object payload = message.payload();
+                        byte[] payloadBytes = converterService.convert(payload, byte[].class);
 
-                byte[] payloadBytes = converterService.convert(payload, byte[].class);
+                        InputStream document = new ByteArrayInputStream(payloadBytes);
 
-                InputStream document = new ByteArrayInputStream(payloadBytes);
+                        FileInputStream styleSheetFileInputStream = new FileInputStream(evaluatedStyleSheetPath);
 
-                String xslt = new String(Files.readAllBytes(Paths.get(evaluatedFilePath)));
+                        StreamSource styleSheetSource = new StreamSource(styleSheetFileInputStream);
 
-                return transform(document, xslt, mimeType);
+                        return transform(document, styleSheetSource, mimeType);
 
-            } catch (IOException e) {
-                throw new ESBException(e);
-            }
+                    } catch (IOException e) {
+                        throw new ESBException(e);
+                    }
 
-        }).orElse(MessageBuilder.get().empty().build());
+                }).orElse(MessageBuilder.get().empty().build());
     }
 
     public void setStyleSheetFile(DynamicString styleSheetFile) {

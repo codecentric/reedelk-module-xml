@@ -33,9 +33,8 @@ abstract class XSLTAbstractComponent {
         }
     }
 
-    protected Message transform(InputStream documentInputStream, String xsltDocument, String outputMimeType) {
-        StreamSource style = new StreamSource(new StringReader(xsltDocument));
-        XsltTransformer xsltTransformer = createTransformerWith(style);
+    protected Message transform(InputStream documentInputStream, StreamSource styleSource, String outputMimeType) {
+        XsltTransformer xsltTransformer = createTransformerWith(styleSource);
         try {
             return transform(documentInputStream, xsltTransformer, outputMimeType);
         } catch (SaxonApiException exception) {

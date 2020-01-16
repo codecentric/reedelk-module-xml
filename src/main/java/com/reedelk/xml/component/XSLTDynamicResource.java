@@ -14,6 +14,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 import org.reactivestreams.Publisher;
 
+import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -58,11 +59,13 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
         Publisher<byte[]> data = styleSheetContent.data();
 
-        Publisher<String> xsltStream = StreamUtils.FromByteArray.asStringStream(data);
+        byte[] styleSheetData = StreamUtils.FromByteArray.consume(data);
 
-        String xslt = StreamUtils.FromString.consume(xsltStream);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(styleSheetData);
 
-        return transform(document, xslt, mimeType);
+        StreamSource styleSheetSource = new StreamSource(byteArrayInputStream);
+
+        return transform(document, styleSheetSource, mimeType);
     }
 
     public void setStyleSheetFile(DynamicResource styleSheetFile) {
