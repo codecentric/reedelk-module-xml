@@ -25,7 +25,7 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
     @Property("XSL style sheet")
     @PropertyInfo("The local project's XSL style sheet.")
-    private DynamicResource resourceFile;
+    private DynamicResource styleSheetPath;
 
     @Property("Output Mime type")
     @MimeTypeCombo
@@ -52,10 +52,10 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
         InputStream document = new ByteArrayInputStream(payloadBytes);
 
         // TODO: 0.7 Add method where don't have to specify read buffer size
-        ResourceFile<byte[]> resourceFile =
-                resourceService.find(this.resourceFile, DEFAULT_READ_BUFFER_SIZE, flowContext, message);
+        ResourceFile<byte[]> loadedResourceFile =
+                resourceService.find(this.styleSheetPath, DEFAULT_READ_BUFFER_SIZE, flowContext, message);
 
-        Publisher<byte[]> data = resourceFile.data();
+        Publisher<byte[]> data = loadedResourceFile.data();
 
         Publisher<String> xsltStream = StreamUtils.FromByteArray.asStringStream(data);
 
@@ -64,8 +64,8 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
         return transform(document, xslt, mimeType);
     }
 
-    public void setResourceFile(DynamicResource resourceFile) {
-        this.resourceFile = resourceFile;
+    public void setStyleSheetPath(DynamicResource styleSheetPath) {
+        this.styleSheetPath = styleSheetPath;
     }
 
     public void setMimeType(String mimeType) {
