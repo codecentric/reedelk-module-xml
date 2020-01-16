@@ -13,14 +13,14 @@ import java.io.StringWriter;
 
 abstract class XSLTAbstractComponent {
 
-    protected DocumentBuilder documentBuilder;
-    protected XsltCompiler xsltCompiler;
     protected Processor saxonProc;
+    protected XsltCompiler xsltCompiler;
+    protected DocumentBuilder documentBuilder;
 
     protected void initializeDocumentBuilder() {
         saxonProc = new Processor(false);
-        documentBuilder = saxonProc.newDocumentBuilder();
         xsltCompiler = saxonProc.newXsltCompiler();
+        documentBuilder = saxonProc.newDocumentBuilder();
     }
 
     protected XsltTransformer createTransformerWith(StreamSource styleSource) {
@@ -34,35 +34,33 @@ abstract class XSLTAbstractComponent {
     }
 
     protected Message transform(InputStream documentInputStream, String xsltDocument, String outputMimeType) {
+        StreamSource style = new StreamSource(new StringReader(xsltDocument));
+        XsltTransformer xsltTransformer = createTransformerWith(style);
         try {
-            StreamSource style = new StreamSource(new StringReader(xsltDocument));
-            XdmNode stylesheet = documentBuilder.build(style);
-            XsltExecutable foStyle = xsltCompiler.compile(stylesheet.asSource());
-            XsltTransformer foTransformer = foStyle.load();
-            return transform(documentInputStream, foTransformer, outputMimeType);
-        } catch (SaxonApiException e) {
-            throw new ESBException(e);
+            return transform(documentInputStream, xsltTransformer, outputMimeType);
+        } catch (SaxonApiException exception) {
+            throw new ESBException(exception);
+        } finally {
+            if (xsltTransformer != null) {
+                xsltTransformer.close();
+            }
         }
     }
 
-    protected Message transform(InputStream documentInputStream, XsltTransformer foTransformer, String outputMimeType) {
-        try {
-            XdmNode inputDocument = documentBuilder.build(new StreamSource(documentInputStream));
+    protected Message transform(InputStream documentInputStream, XsltTransformer transformer, String outputMimeType) throws SaxonApiException {
 
-            StringWriter stringWriter = new StringWriter();
-            Serializer serializer = saxonProc.newSerializer(stringWriter);
-            foTransformer.setDestination(serializer);
-            foTransformer.setInitialContextNode(inputDocument);
+        XdmNode inputDocument = documentBuilder.build(new StreamSource(documentInputStream));
 
-            foTransformer.transform();
+        StringWriter stringWriter = new StringWriter();
+        Serializer serializer = saxonProc.newSerializer(stringWriter);
 
-            foTransformer.close();
+        transformer.setDestination(serializer);
+        transformer.setInitialContextNode(inputDocument);
+        transformer.transform();
+        transformer.close();
 
-            MimeType mimeType = MimeType.parse(outputMimeType);
+        MimeType mimeType = MimeType.parse(outputMimeType);
 
-            return MessageBuilder.get().withText(stringWriter.toString()).mimeType(mimeType).build();
-        } catch (SaxonApiException e) {
-            throw new ESBException(e);
-        }
+        return MessageBuilder.get().withText(stringWriter.toString()).mimeType(mimeType).build();
     }
 }

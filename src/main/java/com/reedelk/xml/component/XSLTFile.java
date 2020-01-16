@@ -25,7 +25,7 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
 
     @Property("XSLT File")
     @PropertyInfo("The path and name of the file to be read from the file system.")
-    private DynamicString fileName;
+    private DynamicString styleSheetFile;
 
     @Property("Output Mime type")
     @MimeTypeCombo
@@ -46,7 +46,7 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
     @Override
     public Message apply(Message message, FlowContext flowContext) {
 
-        return scriptEngine.evaluate(fileName, flowContext, message).map(evaluatedFilePath -> {
+        return scriptEngine.evaluate(styleSheetFile, flowContext, message).map(evaluatedFilePath -> {
 
             try {
                 Object payload = message.payload();
@@ -66,8 +66,8 @@ public class XSLTFile extends XSLTAbstractComponent implements ProcessorSync {
         }).orElse(MessageBuilder.get().empty().build());
     }
 
-    public void setFileName(DynamicString fileName) {
-        this.fileName = fileName;
+    public void setStyleSheetFile(DynamicString styleSheetFile) {
+        this.styleSheetFile = styleSheetFile;
     }
 
     public void setMimeType(String mimeType) {
