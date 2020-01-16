@@ -22,9 +22,7 @@ public class XSLTStaticResourceTransformerStrategy extends XSLTAbstractTransform
     }
     @Override
     public String transform(InputStream inputDocument, Message message, FlowContext context) {
-
-
-        return null;
+        return transform(inputDocument, transformer);
     }
 
     @Override

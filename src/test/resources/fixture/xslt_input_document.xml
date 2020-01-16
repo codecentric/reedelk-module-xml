@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+    <person>
+        <name lang="en">
+            <firstName>Steve</firstName>
+            <surname>Jones</surname>
+        </name>
+        <address>
+            <firstLine>33 Churchill Road</firstLine>
+            <secondLine>Washington</secondLine>
+            <city>Washington DC</city>
+        </address>
+        <age>45</age>
+    </person>
+</persons>
