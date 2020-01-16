@@ -1,32 +1,17 @@
 package com.reedelk.xml.component;
 
-import com.reedelk.runtime.api.converter.ConverterService;
-import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
-import java.lang.reflect.Field;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 
-@ExtendWith(MockitoExtension.class)
-class XSLTResourceTest {
-
-    @Mock
-    private FlowContext flowContext;
-    @Mock
-    private ConverterService converterService;
+class XSLTResourceTest extends AbstractTest {
 
     private ResourceText resourceText;
 
@@ -37,7 +22,7 @@ class XSLTResourceTest {
         resourceText = spy(ResourceText.from("/xslt/sheet_sample.xml"));
         component = new XSLTResource();
         component.setStyleSheetFile(resourceText);
-        setUpMockConverterService();
+        setUpMockConverterService(component);
     }
 
     @Test
@@ -51,7 +36,7 @@ class XSLTResourceTest {
         Message message = MessageBuilder.get().withText(xmlDocument).build();
 
         // When
-        Message result = component.apply(message, flowContext);
+        Message result = component.apply(message, context);
 
         // Then
         String transformedDocument = result.payload();
@@ -78,23 +63,5 @@ class XSLTResourceTest {
                 "      </table>\n" +
                 "   </body>\n" +
                 "</html>");
-    }
-
-    private void setUpMockConverterService() {
-        when(converterService.convert(any(Object.class), eq(byte[].class))).thenAnswer(invocation -> {
-            String actualValue = invocation.getArgument(0);
-            return actualValue.getBytes();
-        });
-        setComponentFieldWithObject("converterService", converterService);
-    }
-
-    private void setComponentFieldWithObject(String field, Object object) {
-        try {
-            Field converterServiceField = component.getClass().getDeclaredField(field);
-            converterServiceField.setAccessible(true);
-            converterServiceField.set(component, object);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            fail(e.getMessage(), e);
-        }
     }
 }

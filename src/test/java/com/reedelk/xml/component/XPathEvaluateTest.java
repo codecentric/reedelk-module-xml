@@ -28,23 +28,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class XPathEvaluateTest {
+
+public class XPathEvaluateTest extends AbstractTest {
 
     private XPathEvaluate component;
-
-    @Mock
-    private FlowContext context;
-    @Mock
-    private ConverterService converterService;
-    @Mock
-    private ScriptEngineService scriptEngineService;
 
     @BeforeEach
     void setUp() {
         component = new XPathEvaluate();
-        setUpMockConverterService();
-        setUpScriptEngineService();
+        setUpMockConverterService(component);
+        setUpScriptEngineService(component);
     }
 
     @Nested
@@ -232,28 +225,6 @@ public class XPathEvaluateTest {
             // Then
             MessageAttributes attributes = result.getAttributes();
             assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
-        }
-    }
-
-    private void setUpScriptEngineService() {
-        setComponentFieldWithObject("scriptEngine", scriptEngineService);
-    }
-
-    private void setUpMockConverterService() {
-        when(converterService.convert(any(Object.class), eq(byte[].class))).thenAnswer(invocation -> {
-            String actualValue = invocation.getArgument(0);
-            return actualValue.getBytes();
-        });
-        setComponentFieldWithObject("converterService", converterService);
-    }
-
-    private void setComponentFieldWithObject(String field, Object object) {
-        try {
-            Field converterServiceField = component.getClass().getDeclaredField(field);
-            converterServiceField.setAccessible(true);
-            converterServiceField.set(component, object);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            fail(e.getMessage(), e);
         }
     }
 }
