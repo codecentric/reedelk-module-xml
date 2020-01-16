@@ -11,6 +11,7 @@
           "displayName": "XPath Expression",
           "propertyName": "expression",
           "defaultValue": "",
+          "propertyInfo": "The XPath expression to be evaluated e.g //book[@year\u003e2001]/title/text(). The expression could be a dynamic value.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -20,9 +21,10 @@
           "whenDescriptors": []
         },
         {
-          "displayName": "Context",
+          "displayName": "XPath Context",
           "propertyName": "configuration",
           "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyInfo": "The context configuration to be used during XPath evaluation. The context might specify prefixes \u003e namespaces mappings used within the XPath expression.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -59,7 +61,7 @@
       "componentPropertyDescriptors": [
         {
           "displayName": "XSL style sheet",
-          "propertyName": "resourceFile",
+          "propertyName": "styleSheetPath",
           "defaultValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The local project\u0027s XSL style sheet.",
           "propertyType": {

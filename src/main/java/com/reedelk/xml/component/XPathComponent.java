@@ -59,6 +59,11 @@ public class XPathComponent implements ProcessorSync {
         return MessageBuilder.get().withJavaObject(evaluationResult).build();
     }
 
+    @Override
+    public void dispose() {
+        strategy = null;
+    }
+
     public void setExpression(DynamicString expression) {
         this.expression = expression;
     }
