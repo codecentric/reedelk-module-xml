@@ -23,13 +23,15 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource implements ProcessorSync {
 
-    @Property("XSL style sheet")
-    @PropertyInfo("XSL style sheet. Must be a file present in the project's resources folder")
+    @Property("XSLT stylesheet")
+    @PropertyInfo("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +
+            "The file must be present in the project's resources folder.")
     private ResourceText styleSheetFile;
 
+    // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.
     @Property("Output Mime type")
     @MimeTypeCombo
-    @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
+    @Default("text/xml")
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 

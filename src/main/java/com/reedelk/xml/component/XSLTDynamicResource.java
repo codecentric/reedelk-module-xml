@@ -24,9 +24,11 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTDynamicResource implements ProcessorSync {
 
-    @Property("XSL style sheet")
+    @Property("XSLT stylesheet")
     @Default("#[]")
-    @PropertyInfo("The local project's XSL style sheet.")
+    @PropertyInfo("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +
+            "The file must be present in the project's resources folder. " +
+            "A dynamic value might be used to define the XSLT stylesheet path.")
     private DynamicResource styleSheetFile;
 
     // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.

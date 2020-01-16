@@ -25,8 +25,10 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTFile implements ProcessorSync {
 
-    @Property("XSLT File")
-    @PropertyInfo("The path and name of the file to be read from the file system.")
+    @Property("XSLT stylesheet")
+    @PropertyInfo("The path on the file system of the XSLT stylesheet file. " +
+            "The file must be present on the file system otherwise an error will be thrown. " +
+            "A dynamic value might be used to define the XSLT stylesheet path.")
     private DynamicString styleSheetFile;
 
     // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.
