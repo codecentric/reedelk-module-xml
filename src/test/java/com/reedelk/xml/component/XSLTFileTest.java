@@ -42,7 +42,56 @@ public class XSLTFileTest extends AbstractTest {
     }
 
     @Test
-    void shouldTransformCorrectlyInputDocument() throws IOException {
+    void shouldTransformCorrectlyInputDocumentWhenStaticValue() throws IOException {
+        // Given
+        // Copy the stylesheet into a tmp directory
+        // (so that the component can find it on the filesystem).
+        String tmpDirPath = System.getProperty("java.io.tmpdir");
+        Path tmpDirectory = Paths.get(tmpDirPath, UUID.randomUUID().toString(), "stylesheet_sample.xml");
+
+        String styleSheet = TestUtils.resourceAsString("/fixture/stylesheet_sample.xsl");
+        Files.createDirectories(tmpDirectory.getParent());
+        Files.write(tmpDirectory, styleSheet.getBytes());
+
+        DynamicString dynamicStyleSheetFilePath = DynamicString.from(tmpDirectory.toString());
+        component.setStyleSheetFile(dynamicStyleSheetFilePath);
+        component.initialize();
+
+        String xmlDocument = TestUtils.resourceAsString("/fixture/xslt_input_document.xml");
+        Message message = MessageBuilder.get().withText(xmlDocument).build();
+
+        // When
+        Message result = component.apply(message, context);
+
+        // Then
+        String transformedDocument = result.payload();
+        assertThat(transformedDocument).isEqualTo("<html>\n" +
+                "   <body>\n" +
+                "      <h2>XSLT transformation example</h2>\n" +
+                "      <table border=\"1\">\n" +
+                "         <tr bgcolor=\"grey\">\n" +
+                "            <th>First Name</th>\n" +
+                "            <th>Surname</th>\n" +
+                "            <th>First line of Address</th>\n" +
+                "            <th>Second line of Address</th>\n" +
+                "            <th>City</th>\n" +
+                "            <th>Age</th>\n" +
+                "         </tr>\n" +
+                "         <tr>\n" +
+                "            <td>Steve</td>\n" +
+                "            <td>Jones</td>\n" +
+                "            <td>33 Churchill Road</td>\n" +
+                "            <td>Washington</td>\n" +
+                "            <td>Washington DC</td>\n" +
+                "            <td>45</td>\n" +
+                "         </tr>\n" +
+                "      </table>\n" +
+                "   </body>\n" +
+                "</html>");
+    }
+
+    @Test
+    void shouldTransformCorrectlyInputDocumentWhenDynamicValue() throws IOException {
         // Given
         // Copy the stylesheet into a tmp directory
         // (so that the component can find it on the filesystem).
@@ -95,4 +144,6 @@ public class XSLTFileTest extends AbstractTest {
                 "   </body>\n" +
                 "</html>");
     }
+
+
 }
