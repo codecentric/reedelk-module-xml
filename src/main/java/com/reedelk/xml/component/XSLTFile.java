@@ -19,6 +19,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
+
 @ESBComponent("XSLT From File")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTFile implements ProcessorSync {
@@ -43,6 +45,8 @@ public class XSLTFile implements ProcessorSync {
 
     @Override
     public void initialize() {
+        requireNotNull(styleSheetFile,
+                "Property 'styleSheetFile' must not be empty");
         if (styleSheetFile.isScript()) {
             strategy = new XSLTDynamicFileTransformerStrategy(scriptEngine, styleSheetFile);
         } else {

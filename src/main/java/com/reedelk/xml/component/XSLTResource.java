@@ -38,7 +38,6 @@ public class XSLTResource implements ProcessorSync {
 
     private XSLTTransformerStrategy strategy;
 
-
     @Override
     public void initialize() {
         requireNotNull(styleSheetFile,
@@ -68,6 +67,7 @@ public class XSLTResource implements ProcessorSync {
     public void dispose() {
         if (strategy != null) {
             strategy.dispose();
+            strategy = null;
         }
     }
 
