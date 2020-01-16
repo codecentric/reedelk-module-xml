@@ -1,6 +1,0 @@
-{
-  "id": "8f5d7efd-d8ff-4a5a-bdae-921e59be4057",
-  "title": "Namespace Mappings",
-  "implementor": "com.reedelk.xml.component.XPathConfiguration",
-  "prefixNamespaceMap": {"ns2": "http://bookstore.com/schemes"}
-}

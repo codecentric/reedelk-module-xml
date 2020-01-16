@@ -12,22 +12,10 @@
     </parent>
 
     <packaging>bundle</packaging>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.6.1</version>
     <artifactId>module-xml</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.reedelk</groupId>
-            <artifactId>module-rest</artifactId>
-            <version>0.6.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.reedelk</groupId>
-            <artifactId>module-core</artifactId>
-            <version>0.6.1</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
@@ -52,5 +40,4 @@
             <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
     </dependencies>
-
 </project>
