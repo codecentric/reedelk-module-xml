@@ -44,7 +44,7 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
     @Override
     public void initialize() {
         requireNotNull(styleSheetFile,
-                "Component property 'styleSheetFile' must not be empty");
+                "Property 'styleSheetFile' must not be empty");
 
         initializeDocumentBuilder();
 
@@ -63,8 +63,8 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
 
         try {
             return transform(fileInputStream, transformer, mimeType);
-        } catch (SaxonApiException e) {
-            throw new ESBException(e);
+        } catch (SaxonApiException exception) {
+            throw new ESBException(exception);
         }
     }
 
