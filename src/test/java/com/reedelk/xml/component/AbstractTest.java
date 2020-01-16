@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,14 +31,14 @@ abstract class AbstractTest {
     }
 
     protected void setUpMockConverterService(Component component) {
-        when(converterService.convert(any(Object.class), eq(byte[].class))).thenAnswer(invocation -> {
+        lenient().when(converterService.convert(any(Object.class), eq(byte[].class))).thenAnswer(invocation -> {
             String actualValue = invocation.getArgument(0);
             return actualValue.getBytes();
         });
         setComponentFieldWithObject(component, "converterService", converterService);
     }
 
-    private void setComponentFieldWithObject(Component component, String field, Object object) {
+    protected void setComponentFieldWithObject(Component component, String field, Object object) {
         try {
             Field converterServiceField = component.getClass().getDeclaredField(field);
             converterServiceField.setAccessible(true);
