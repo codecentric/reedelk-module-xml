@@ -1,6 +1,7 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.ConfigurationPreconditions;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
@@ -19,12 +20,14 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
 
+import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.*;
+
 @ESBComponent("XSLT From Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
 
     @Property("XSL style sheet")
-    @PropertyInfo("The local project's XSL style sheet.")
+    @PropertyInfo("XSL style sheet. Must be a file present in the project's resources folder")
     private ResourceText styleSheetFile;
 
     @Property("Output Mime type")
@@ -40,7 +43,11 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
 
     @Override
     public void initialize() {
+        requireNotNull(styleSheetFile,
+                "Component property 'styleSheetFile' must not be empty");
+
         initializeDocumentBuilder();
+
         String xslt = StreamUtils.FromString.consume(styleSheetFile.data());
         StreamSource style = new StreamSource(new StringReader(xslt));
         transformer = createTransformerWith(style);

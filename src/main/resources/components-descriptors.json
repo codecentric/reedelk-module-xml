@@ -11,7 +11,7 @@
           "displayName": "XPath Expression",
           "propertyName": "expression",
           "defaultValue": "",
-          "propertyInfo": "Sets the XPath expression to be evaluated. It might be a dynamic expression. Examples: \u003cul\u003e\u003cli\u003e\u003cb\u003eStatic\u003c/b\u003e: //book[@year\u003e2001]/title/text()\u003c/li\u003e\u003cli\u003e\u003cb\u003eStatic\u003c/b\u003e: count(//book/title)\u003c/li\u003e\u003cli\u003e\u003cb\u003eStatic\u003c/b\u003e: boolean(/inventory/book/price[text() \u003e 14])\u003c/li\u003e\u003cli\u003e\u003cb\u003eStatic\u003c/b\u003e: //ns2:bookStore/ns2:book/ns2:name/text()\u003c/li\u003e\u003cli\u003e\u003cb\u003eDynamic\u003c/b\u003e: \u0027boolean(/inventory/book/price[text() \u003e \u0027 + message.attributes().queryParams.price + \u0027])\u0027\u003c/li\u003e\u003c/ul\u003e",
+          "propertyInfo": "Sets the XPath expression to be evaluated. It can be a dynamic expression. \u003cbr\u003eExamples: \u003cul\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //book[@year\u003e2001]/title/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: count(//book/title)\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: boolean(/inventory/book/price[text() \u003e 14])\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //ns2:bookStore/ns2:book/ns2:name/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eDynamic\u003c/i\u003e: \u0027boolean(/inventory/book/price[text() \u003e \u0027 + message.attributes().queryParams.price + \u0027])\u0027\u003c/li\u003e\u003c/ul\u003e",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -61,7 +61,7 @@
       "componentPropertyDescriptors": [
         {
           "displayName": "XSL style sheet",
-          "propertyName": "styleSheetPath",
+          "propertyName": "styleSheetFile",
           "defaultValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The local project\u0027s XSL style sheet.",
           "propertyType": {
@@ -218,7 +218,7 @@
       "componentPropertyDescriptors": [
         {
           "displayName": "XSLT File",
-          "propertyName": "fileName",
+          "propertyName": "styleSheetFile",
           "defaultValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The path and name of the file to be read from the file system.",
           "propertyType": {
@@ -375,9 +375,9 @@
       "componentPropertyDescriptors": [
         {
           "displayName": "XSL style sheet",
-          "propertyName": "resourceFile",
+          "propertyName": "styleSheetFile",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The local project\u0027s XSL style sheet.",
+          "propertyInfo": "XSL style sheet. Must be a file present in the project\u0027s resources folder",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeResourceTextDescriptor",
             "instance": {

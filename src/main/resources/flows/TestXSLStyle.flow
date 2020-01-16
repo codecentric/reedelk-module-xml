@@ -22,7 +22,7 @@
     {
       "implementor": "com.reedelk.xml.component.XSLTResource",
       "description": "XSLT From Resource",
-      "resourceFile": "xslt/converter.xsl",
+      "styleSheetFile": "xslt/converter.xsl",
       "mimeType": "text/xml"
     }
   ]
