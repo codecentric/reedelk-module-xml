@@ -1,12 +1,13 @@
 package com.reedelk.xml.component;
 
+import com.reedelk.runtime.api.commons.ModuleContext;
+import com.reedelk.runtime.api.commons.ScriptUtils;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doReturn;
 
 public class XSLTFileTest extends AbstractTest {
 
@@ -42,21 +44,25 @@ public class XSLTFileTest extends AbstractTest {
     @Test
     void shouldTransformCorrectlyInputDocument() throws IOException {
         // Given
-        // Copy the stylesheet into a tmp directory (so that the component can find it
-        // on the filesystem.
+        // Copy the stylesheet into a tmp directory
+        // (so that the component can find it on the filesystem).
         String tmpDirPath = System.getProperty("java.io.tmpdir");
         Path tmpDirectory = Paths.get(tmpDirPath, UUID.randomUUID().toString(), "stylesheet_sample.xml");
 
         String styleSheet = TestUtils.resourceAsString("/fixture/stylesheet_sample.xsl");
+        Files.createDirectories(tmpDirectory.getParent());
         Files.write(tmpDirectory, styleSheet.getBytes());
 
-        DynamicString dynamicStyleSheetFilePath = DynamicString.from(tmpDirectory.toString());
+        DynamicString dynamicStyleSheetFilePath =
+                DynamicString.from(ScriptUtils.asScript("'" + tmpDirectory.toString() + "'"),
+                        new ModuleContext(10L));
         component.setStyleSheetFile(dynamicStyleSheetFilePath);
+        component.initialize();
 
         String xmlDocument = TestUtils.resourceAsString("/fixture/xslt_input_document.xml");
         Message message = MessageBuilder.get().withText(xmlDocument).build();
 
-        Mockito.doReturn(Optional.of(tmpDirectory.toString()))
+        doReturn(Optional.of(tmpDirectory.toString()))
                 .when(scriptEngineService)
                 .evaluate(dynamicStyleSheetFilePath, context, message);
 
