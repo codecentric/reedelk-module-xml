@@ -1,6 +1,8 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.ConfigurationPreconditions;
+import com.reedelk.runtime.api.commons.Preconditions;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
@@ -14,6 +16,8 @@ import com.reedelk.xml.xpath.XPathStaticExpressionEvaluator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
+
+import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.*;
 
 @ESBComponent("XPath Extract")
 @Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
@@ -40,6 +44,7 @@ public class XPathComponent implements ProcessorSync {
 
     @Override
     public void initialize() {
+        requireNotBlank(expression.value(), "XPath expression cannot be null.");
         if (expression.isScript()) {
             strategy = new XPathDynamicExpressionEvaluator(scriptEngine, configuration, expression);
         } else {
