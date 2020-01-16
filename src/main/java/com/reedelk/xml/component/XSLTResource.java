@@ -55,7 +55,7 @@ public class XSLTResource implements ProcessorSync {
 
         String transformResult = strategy.transform(fileInputStream, message, flowContext);
 
-        MimeType parsedMimeType = MimeType.parse(this.mimeType);
+        MimeType parsedMimeType = MimeType.parse(mimeType);
 
         return MessageBuilder.get()
                 .withText(transformResult)
