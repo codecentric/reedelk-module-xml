@@ -25,15 +25,22 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 public class XPathComponent implements ProcessorSync {
 
     @Property("XPath Expression")
-    @PropertyInfo("The XPath expression to be evaluated e.g //book[@year>2001]/title/text()." +
-            " The expression could be a dynamic value.")
+    @PropertyInfo("Sets the XPath expression to be evaluated. It can be a dynamic expression. <br>" +
+            "Examples: " +
+            "<ul>" +
+            "<li><i>Static</i>: //book[@year>2001]/title/text()</li>" +
+            "<li><i>Static</i>: count(//book/title)</li>" +
+            "<li><i>Static</i>: boolean(/inventory/book/price[text() > 14])</li>" +
+            "<li><i>Static</i>: //ns2:bookStore/ns2:book/ns2:name/text()</li>" +
+            "<li><i>Dynamic</i>: 'boolean(/inventory/book/price[text() > ' + message.attributes().queryParams.price + '])'</li>" +
+            "</ul>")
     @Default("")
     @Hint("//book[@year>2001]/title/text()")
     private DynamicString expression;
 
     @Property("XPath Context")
-    @PropertyInfo("The context configuration to be used during XPath evaluation. " +
-            "The context might specify prefixes > namespaces mappings used within the XPath expression.")
+    @PropertyInfo("The context configuration can be used when the XPath expression contains node" +
+            " names with namespace prefixes. The configuration allows to define the prefixes > namespaces mapping.")
     private XPathConfiguration configuration;
 
     @Reference
