@@ -13,10 +13,12 @@ import java.io.InputStream;
 
 public class XPathStaticExpressionEvaluator extends XPathAbstractEvaluator {
 
+    private final String xPathExpression;
     private final XPathExecutable xPathExecutable;
 
     public XPathStaticExpressionEvaluator(XPathConfiguration configuration, String xPathExpression) {
         super(configuration);
+        this.xPathExpression = xPathExpression;
         try {
             xPathExecutable = xPathCompiler.compile(xPathExpression);
         } catch (SaxonApiException exception) {
@@ -25,7 +27,7 @@ public class XPathStaticExpressionEvaluator extends XPathAbstractEvaluator {
     }
 
     @Override
-    public Object evaluate(byte[] payload, Message message, FlowContext flowContext) {
+    public EvaluationResult evaluate(byte[] payload, Message message, FlowContext flowContext) {
 
         try (InputStream fileInputStream = new ByteArrayInputStream(payload)) {
 
@@ -39,7 +41,9 @@ public class XPathStaticExpressionEvaluator extends XPathAbstractEvaluator {
 
             XdmValue result = load.evaluate();
 
-            return XPathResultMapper.map(result);
+            Object mappedResult = XPathResultMapper.map(result);
+
+            return new EvaluationResult(xPathExpression, mappedResult);
 
         } catch (SaxonApiException | IOException exception) {
             throw new ESBException(exception);

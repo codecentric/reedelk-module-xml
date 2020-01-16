@@ -1,23 +1,24 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.ConfigurationPreconditions;
-import com.reedelk.runtime.api.commons.Preconditions;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
+import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
-import com.reedelk.xml.xpath.XPathDynamicExpressionEvaluator;
-import com.reedelk.xml.xpath.XPathExpressionEvaluator;
-import com.reedelk.xml.xpath.XPathStaticExpressionEvaluator;
+import com.reedelk.xml.xpath.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.*;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotBlank;
 
 @ESBComponent("XPath Extract")
 @Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
@@ -59,9 +60,19 @@ public class XPathComponent implements ProcessorSync {
 
         byte[] payloadAsBytes = converterService.convert(payload, byte[].class);
 
-        Object evaluationResult = strategy.evaluate(payloadAsBytes, message, flowContext);
+        EvaluationResult evaluationResult = strategy.evaluate(payloadAsBytes, message, flowContext);
 
-        return MessageBuilder.get().withJavaObject(evaluationResult).build();
+        Object xPathResult = evaluationResult.getResult();
+
+        Map<String, Serializable> attributes = new HashMap<>();
+        attributes.put(XPathAttribute.XPATH_EXPRESSION, evaluationResult.getExpression());
+        DefaultMessageAttributes responseAttributes
+                = new DefaultMessageAttributes(XPathComponent.class, attributes);
+
+        return MessageBuilder.get()
+                .attributes(responseAttributes)
+                .withJavaObject(xPathResult)
+                .build();
     }
 
     @Override

@@ -5,6 +5,6 @@ import com.reedelk.runtime.api.message.Message;
 
 public interface XPathExpressionEvaluator {
 
-    Object evaluate(byte[] payload, Message message, FlowContext flowContext);
+    EvaluationResult evaluate(byte[] payload, Message message, FlowContext flowContext);
 
 }

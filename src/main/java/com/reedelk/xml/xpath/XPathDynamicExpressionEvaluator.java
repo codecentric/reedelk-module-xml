@@ -27,7 +27,7 @@ public class XPathDynamicExpressionEvaluator extends XPathAbstractEvaluator {
     }
 
     @Override
-    public Object evaluate(byte[] payload, Message message, FlowContext flowContext) {
+    public EvaluationResult evaluate(byte[] payload, Message message, FlowContext flowContext) {
         return engineService.evaluate(dynamicExpression, flowContext, message).map(evaluatedXPathExpression -> {
 
             try (InputStream fileInputStream = new ByteArrayInputStream(payload)) {
@@ -44,12 +44,14 @@ public class XPathDynamicExpressionEvaluator extends XPathAbstractEvaluator {
 
                 XdmValue result = load.evaluate();
 
-                return XPathResultMapper.map(result);
+                Object mappedResult = XPathResultMapper.map(result);
+
+                return new EvaluationResult(evaluatedXPathExpression, mappedResult);
 
             } catch (SaxonApiException | IOException exception) {
                 throw new ESBException(exception);
             }
 
-        }).orElse(null);
+        }).orElse(new EvaluationResult(null, null));
     }
 }
