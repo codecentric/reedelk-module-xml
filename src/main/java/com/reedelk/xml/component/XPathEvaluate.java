@@ -20,9 +20,9 @@ import java.util.Map;
 
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotBlank;
 
-@ESBComponent("XPath Extract")
-@Component(service = XPathComponent.class, scope = ServiceScope.PROTOTYPE)
-public class XPathComponent implements ProcessorSync {
+@ESBComponent("XPath Evaluate")
+@Component(service = XPathEvaluate.class, scope = ServiceScope.PROTOTYPE)
+public class XPathEvaluate implements ProcessorSync {
 
     @Property("XPath Expression")
     @PropertyInfo("Sets the XPath expression to be evaluated. It can be a dynamic expression. <br>" +
@@ -75,7 +75,7 @@ public class XPathComponent implements ProcessorSync {
         attributes.put(XPathAttribute.XPATH_EXPRESSION, evaluationResult.getExpression());
 
         DefaultMessageAttributes responseAttributes
-                = new DefaultMessageAttributes(XPathComponent.class, attributes);
+                = new DefaultMessageAttributes(XPathEvaluate.class, attributes);
 
         return MessageBuilder.get()
                 .attributes(responseAttributes)

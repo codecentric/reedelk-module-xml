@@ -1,6 +1,5 @@
 package com.reedelk.xml.component;
 
-import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
@@ -19,20 +18,20 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.reedelk.xml.component.TestUtils.resourceAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class XPathComponentTest {
+public class XPathEvaluateTest {
 
-    private XPathComponent component;
+    private XPathEvaluate component;
 
     @Mock
     private FlowContext context;
@@ -43,7 +42,7 @@ public class XPathComponentTest {
 
     @BeforeEach
     void setUp() {
-        component = new XPathComponent();
+        component = new XPathEvaluate();
         setUpMockConverterService();
         setUpScriptEngineService();
     }
@@ -234,11 +233,6 @@ public class XPathComponentTest {
             MessageAttributes attributes = result.getAttributes();
             assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
         }
-    }
-
-    private String resourceAsString(String resourceFile) {
-        URL url = XPathComponentTest.class.getResource(resourceFile);
-        return FileUtils.ReadFromURL.asString(url);
     }
 
     private void setUpScriptEngineService() {
