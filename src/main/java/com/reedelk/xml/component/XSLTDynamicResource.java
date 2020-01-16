@@ -24,6 +24,7 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
     public static final int DEFAULT_READ_BUFFER_SIZE = 65536;
 
     @Property("XSL style sheet")
+    @Default("#[]")
     @PropertyInfo("The local project's XSL style sheet.")
     private DynamicResource styleSheetFile;
 

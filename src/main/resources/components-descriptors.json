@@ -62,7 +62,7 @@
         {
           "displayName": "XSL style sheet",
           "propertyName": "styleSheetFile",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "defaultValue": "#[]",
           "propertyInfo": "The local project\u0027s XSL style sheet.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
