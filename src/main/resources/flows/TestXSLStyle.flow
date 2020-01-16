@@ -22,7 +22,7 @@
     {
       "implementor": "com.reedelk.xml.component.XSLTFile",
       "description": "XSLT From File",
-      "styleSheetFile": "#['/Users/lorenzo/Desktop/' + message.attributes().queryParams.file[0]]",
+      "styleSheetFile": "/Users/lorenzo/Desktop/converter.xsl",
       "mimeType": "text/xml"
     }
   ]
