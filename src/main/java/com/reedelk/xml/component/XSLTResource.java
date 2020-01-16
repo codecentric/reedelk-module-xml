@@ -1,30 +1,27 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.ConfigurationPreconditions;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
-import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
-import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XsltTransformer;
+import com.reedelk.xml.xslt.XSLTStaticResourceTransformerStrategy;
+import com.reedelk.xml.xslt.XSLTTransformerStrategy;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.*;
+import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
 
 @ESBComponent("XSLT From Resource")
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
-public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync {
+public class XSLTResource implements ProcessorSync {
 
     @Property("XSL style sheet")
     @PropertyInfo("XSL style sheet. Must be a file present in the project's resources folder")
@@ -39,18 +36,14 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
     @Reference
     private ConverterService converterService;
 
-    private XsltTransformer transformer;
+    private XSLTTransformerStrategy strategy;
+
 
     @Override
     public void initialize() {
         requireNotNull(styleSheetFile,
                 "Property 'styleSheetFile' must not be empty");
-
-        initializeDocumentBuilder();
-
-        String xslt = StreamUtils.FromString.consume(styleSheetFile.data());
-        StreamSource style = new StreamSource(new StringReader(xslt));
-        transformer = createTransformerWith(style);
+        strategy = new XSLTStaticResourceTransformerStrategy(styleSheetFile);
     }
 
     @Override
@@ -61,17 +54,20 @@ public class XSLTResource extends XSLTAbstractComponent implements ProcessorSync
 
         InputStream fileInputStream = new ByteArrayInputStream(payloadBytes);
 
-        try {
-            return transform(fileInputStream, transformer, mimeType);
-        } catch (SaxonApiException exception) {
-            throw new ESBException(exception);
-        }
+        String transformResult = strategy.transform(fileInputStream, message, flowContext);
+
+        MimeType parsedMimeType = MimeType.parse(this.mimeType);
+
+        return MessageBuilder.get()
+                .withText(transformResult)
+                .mimeType(parsedMimeType)
+                .build();
     }
 
     @Override
     public void dispose() {
-        if (transformer != null) {
-            transformer.close();
+        if (strategy != null) {
+            strategy.dispose();
         }
     }
 

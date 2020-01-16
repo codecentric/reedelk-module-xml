@@ -1,37 +1,36 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.message.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.DynamicResource;
-import com.reedelk.runtime.api.resource.ResourceFile;
 import com.reedelk.runtime.api.resource.ResourceService;
+import com.reedelk.xml.xslt.XSLTDynamicResourceTransformerStrategy;
+import com.reedelk.xml.xslt.XSLTTransformerStrategy;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.reactivestreams.Publisher;
 
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 @ESBComponent("XSLT From Resource Dynamic")
 @Component(service = XSLTDynamicResource.class, scope = ServiceScope.PROTOTYPE)
-public class XSLTDynamicResource extends XSLTAbstractComponent implements ProcessorSync {
-
-    public static final int DEFAULT_READ_BUFFER_SIZE = 65536;
+public class XSLTDynamicResource implements ProcessorSync {
 
     @Property("XSL style sheet")
     @Default("#[]")
     @PropertyInfo("The local project's XSL style sheet.")
     private DynamicResource styleSheetFile;
 
+    // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.
     @Property("Output Mime type")
     @MimeTypeCombo
-    @Default("text/xml") // TODO: 0.7 Release: replace with constant and add to Mime Types when added to the API.
+    @Default("text/xml")
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 
@@ -40,9 +39,11 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
     @Reference
     private ConverterService converterService;
 
+    private XSLTTransformerStrategy strategy;
+
     @Override
     public void initialize() {
-        initializeDocumentBuilder();
+        strategy = new XSLTDynamicResourceTransformerStrategy(resourceService, styleSheetFile);
     }
 
     @Override
@@ -53,19 +54,22 @@ public class XSLTDynamicResource extends XSLTAbstractComponent implements Proces
 
         InputStream document = new ByteArrayInputStream(payloadBytes);
 
-        // TODO: 0.7 Add method where don't have to specify read buffer size
-        ResourceFile<byte[]> styleSheetContent =
-                resourceService.find(styleSheetFile, DEFAULT_READ_BUFFER_SIZE, flowContext, message);
+        String transformResult = strategy.transform(document, message, flowContext);
 
-        Publisher<byte[]> data = styleSheetContent.data();
+        MimeType parsedMimeType = MimeType.parse(mimeType);
 
-        byte[] styleSheetData = StreamUtils.FromByteArray.consume(data);
+        return MessageBuilder.get()
+                .withText(transformResult)
+                .mimeType(parsedMimeType)
+                .build();
+    }
 
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(styleSheetData);
-
-        StreamSource styleSheetSource = new StreamSource(byteArrayInputStream);
-
-        return transform(document, styleSheetSource, mimeType);
+    @Override
+    public void dispose() {
+        if (strategy != null) {
+            strategy.dispose();
+            strategy = null;
+        }
     }
 
     public void setStyleSheetFile(DynamicResource styleSheetFile) {
