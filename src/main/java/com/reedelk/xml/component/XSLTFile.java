@@ -31,10 +31,9 @@ public class XSLTFile implements ProcessorSync {
             "A dynamic value might be used to define the XSLT stylesheet path.")
     private DynamicString styleSheetFile;
 
-    // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.
     @Property("Output Mime type")
     @MimeTypeCombo
-    @Default("text/xml")
+    @Default(MimeType.MIME_TYPE_TEXT_XML)
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 

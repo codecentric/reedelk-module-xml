@@ -28,10 +28,9 @@ public class XSLTResource implements ProcessorSync {
             "The file must be present in the project's resources folder.")
     private ResourceText styleSheetFile;
 
-    // TODO [0.7 Release]: replace with constant and add to Mime Types when added to the API.
     @Property("Output Mime type")
     @MimeTypeCombo
-    @Default("text/xml")
+    @Default(MimeType.MIME_TYPE_TEXT_XML)
     @PropertyInfo("Sets mime type of the transformed payload.")
     private String mimeType;
 
