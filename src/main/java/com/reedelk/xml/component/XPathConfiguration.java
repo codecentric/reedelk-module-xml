@@ -13,7 +13,6 @@ import java.util.Map;
 @Component(service = XPathConfiguration.class, scope = ServiceScope.PROTOTYPE)
 public class XPathConfiguration implements Implementor {
 
-    @TabGroup("Namespace Context")
     @Property("Prefix > Namespace")
     private Map<String,String> prefixNamespaceMap;
 
