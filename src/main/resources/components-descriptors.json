@@ -33,7 +33,7 @@
               "typeFullyQualifiedName": "com.reedelk.xml.component.XPathConfiguration",
               "objectProperties": [
                 {
-                  "displayName": "Prefix \u003e Namespace",
+                  "displayName": "Prefix \u003e Namespace mappings",
                   "propertyName": "prefixNamespaceMap",
                   "defaultValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
