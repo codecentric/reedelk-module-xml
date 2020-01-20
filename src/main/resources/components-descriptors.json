@@ -39,7 +39,7 @@
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeMapDescriptor",
                     "instance": {
-                      "tabGroup": "Namespace Context",
+                      "tabPlacement": "TOP",
                       "type": "java.util.Map"
                     }
                   },
