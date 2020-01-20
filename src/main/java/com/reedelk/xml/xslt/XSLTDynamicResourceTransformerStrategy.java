@@ -15,8 +15,6 @@ import java.io.InputStream;
 
 public class XSLTDynamicResourceTransformerStrategy extends XSLTAbstractTransformer implements XSLTTransformerStrategy {
 
-    public static final int DEFAULT_READ_BUFFER_SIZE = 65536;
-
     private final ResourceService resourceService;
     private final DynamicResource styleSheetFile;
 
@@ -25,13 +23,10 @@ public class XSLTDynamicResourceTransformerStrategy extends XSLTAbstractTransfor
         this.styleSheetFile = styleSheetFile;
     }
 
-    // TODO [0.7 release]: Add method to resource service
-    //  where don't have to specify read buffer size.
     @Override
     public String transform(InputStream inputDocument, Message message, FlowContext context) {
 
-        ResourceFile<byte[]> styleSheetContent =
-                resourceService.find(styleSheetFile, DEFAULT_READ_BUFFER_SIZE, context, message);
+        ResourceFile<byte[]> styleSheetContent = resourceService.find(styleSheetFile, context, message);
 
         Publisher<byte[]> data = styleSheetContent.data();
 

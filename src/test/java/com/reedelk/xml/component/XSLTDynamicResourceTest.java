@@ -53,7 +53,7 @@ public class XSLTDynamicResourceTest extends AbstractTest {
         String styleSheet = TestUtils.resourceAsString("/fixture/stylesheet_sample.xsl");
         ResourceFile<byte[]> styleSheetResourceFile = resourceFileWithData(styleSheet);
         doReturn(styleSheetResourceFile).when(resourceService)
-                .find(eq(dynamicStyleSheetResource), anyInt(), eq(context), eq(message));
+                .find(eq(dynamicStyleSheetResource), eq(context), eq(message));
 
         component.initialize();
 
