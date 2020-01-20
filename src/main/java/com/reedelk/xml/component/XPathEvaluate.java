@@ -52,7 +52,7 @@ public class XPathEvaluate implements ProcessorSync {
 
     @Override
     public void initialize() {
-        requireNotBlank(expression.value(), "XPath expression cannot be null.");
+        requireNotBlank(XPathEvaluate.class, expression.value(), "XPath expression cannot be null.");
         if (expression.isScript()) {
             strategy = new XPathDynamicExpressionEvaluator(scriptEngine, configuration, expression);
         } else {

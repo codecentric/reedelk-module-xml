@@ -46,7 +46,7 @@ public class XSLTFile implements ProcessorSync {
 
     @Override
     public void initialize() {
-        requireNotNull(styleSheetFile,
+        requireNotNull(XSLTFile.class, styleSheetFile,
                 "Property 'styleSheetFile' must not be empty");
         if (styleSheetFile.isScript()) {
             strategy = new XSLTDynamicFileTransformerStrategy(scriptEngine, styleSheetFile);

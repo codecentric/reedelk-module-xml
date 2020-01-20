@@ -41,7 +41,7 @@ public class XSLTResource implements ProcessorSync {
 
     @Override
     public void initialize() {
-        requireNotNull(styleSheetFile,
+        requireNotNull(XSLTResource.class, styleSheetFile,
                 "Property 'styleSheetFile' must not be empty");
         strategy = new XSLTStaticResourceTransformerStrategy(styleSheetFile);
     }
