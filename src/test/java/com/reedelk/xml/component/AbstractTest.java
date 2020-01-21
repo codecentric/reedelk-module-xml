@@ -2,7 +2,7 @@ package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.component.Component;
 import com.reedelk.runtime.api.converter.ConverterService;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

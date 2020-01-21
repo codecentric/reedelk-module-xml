@@ -1,7 +1,7 @@
 package com.reedelk.xml.xpath;
 
 import com.reedelk.runtime.api.exception.ESBException;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.xml.component.XPathConfiguration;
 import net.sf.saxon.s9api.*;

@@ -1,6 +1,6 @@
 package com.reedelk.xml.xslt;
 
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 
 import java.io.InputStream;

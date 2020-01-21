@@ -1,7 +1,7 @@
 package com.reedelk.xml.xslt;
 
 import com.reedelk.runtime.api.commons.StreamUtils;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.resource.DynamicResource;
 import com.reedelk.runtime.api.resource.ResourceFile;
