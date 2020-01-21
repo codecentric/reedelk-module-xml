@@ -62,7 +62,7 @@ public class XPathEvaluate implements ProcessorSync {
     }
 
     @Override
-    public Message apply(Message message, FlowContext flowContext) {
+    public Message apply(FlowContext flowContext, Message message) {
         Object payload = message.payload();
 
         byte[] payloadAsBytes = converterService.convert(payload, byte[].class);

@@ -55,7 +55,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message message = MessageBuilder.get().withText(xmlDocument).build();
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             List<String> xPathResult = result.payload();
@@ -74,7 +74,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message message = MessageBuilder.get().withText(xml).build();
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             List<String> xPathResult = result.payload();
@@ -93,7 +93,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message message = MessageBuilder.get().withText(xml).build();
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             BigInteger count = result.payload();
@@ -113,7 +113,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message message = MessageBuilder.get().withText(xml).build();
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             boolean existsBookWithPriceGreaterThan14 = result.payload();
@@ -132,7 +132,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message message = MessageBuilder.get().withText(xml).build();
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             MessageAttributes attributes = result.getAttributes();
@@ -164,7 +164,7 @@ public class XPathEvaluateTest extends AbstractTest {
                     .evaluate(xPathExpression, context, message);
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             List<String> xPathResult = result.payload();
@@ -188,7 +188,7 @@ public class XPathEvaluateTest extends AbstractTest {
                     .evaluate(xPathExpression, context, message);
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             Object payload = result.payload();
@@ -212,7 +212,7 @@ public class XPathEvaluateTest extends AbstractTest {
                     .evaluate(xPathExpression, context, message);
 
             // When
-            Message result = component.apply(message, context);
+            Message result = component.apply(context, message);
 
             // Then
             MessageAttributes attributes = result.getAttributes();

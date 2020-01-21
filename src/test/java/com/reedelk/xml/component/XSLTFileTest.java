@@ -61,7 +61,7 @@ public class XSLTFileTest extends AbstractTest {
         Message message = MessageBuilder.get().withText(xmlDocument).build();
 
         // When
-        Message result = component.apply(message, context);
+        Message result = component.apply(context, message);
 
         // Then
         String transformedDocument = result.payload();
@@ -116,7 +116,7 @@ public class XSLTFileTest extends AbstractTest {
                 .evaluate(dynamicStyleSheetFilePath, context, message);
 
         // When
-        Message result = component.apply(message, context);
+        Message result = component.apply(context, message);
 
         // Then
         String transformedDocument = result.payload();

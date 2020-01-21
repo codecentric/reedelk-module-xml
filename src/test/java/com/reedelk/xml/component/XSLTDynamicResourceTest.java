@@ -58,7 +58,7 @@ public class XSLTDynamicResourceTest extends AbstractTest {
         component.initialize();
 
         // When
-        Message result = component.apply(message, context);
+        Message result = component.apply(context, message);
 
         // Then
         String transformedDocument = result.payload();
