@@ -70,8 +70,7 @@ public class XSLTFile implements ProcessorSync {
         MimeType parsedMimeType = MimeType.parse(mimeType);
 
         return MessageBuilder.get()
-                .withText(transformResult)
-                .mimeType(parsedMimeType)
+                .withString(transformResult, parsedMimeType)
                 .build();
     }
 
