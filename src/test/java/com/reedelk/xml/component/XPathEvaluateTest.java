@@ -135,7 +135,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message result = component.apply(context, message);
 
             // Then
-            MessageAttributes attributes = result.getAttributes();
+            MessageAttributes attributes = result.attributes();
             assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
         }
     }
@@ -215,7 +215,7 @@ public class XPathEvaluateTest extends AbstractTest {
             Message result = component.apply(context, message);
 
             // Then
-            MessageAttributes attributes = result.getAttributes();
+            MessageAttributes attributes = result.attributes();
             assertThat(attributes).containsEntry("xPathExpression", "//book[@year>2001]/title/text()");
         }
     }
