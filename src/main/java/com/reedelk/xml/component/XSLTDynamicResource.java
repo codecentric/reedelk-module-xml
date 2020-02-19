@@ -42,7 +42,7 @@ public class XSLTDynamicResource implements ProcessorSync {
     @MimeTypeCombo
     @Example(MimeType.MIME_TYPE_TEXT_XML)
     @InitValue(MimeType.MIME_TYPE_TEXT_XML)
-    @DefaultRenameMe(MimeType.MIME_TYPE_TEXT_XML)
+    @DefaultValue(MimeType.MIME_TYPE_TEXT_XML)
     @Property("Output Mime type")
     @PropertyDescription("Sets mime type of the transformed payload.")
     private String mimeType;

@@ -9,11 +9,11 @@
       "componentPropertyDescriptors": [
         {
           "example": "\u003cul\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //book[@year\u003e2001]/title/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: count(//book/title)\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: boolean(/inventory/book/price[text() \u003e 14])\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //ns2:bookStore/ns2:book/ns2:name/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eDynamic\u003c/i\u003e: \u0027boolean(/inventory/book/price[text() \u003e \u0027 + message.attributes().queryParams.price + \u0027])\u0027\u003c/li\u003e\u003c/ul\u003e",
+          "initValue": "",
           "hintValue": "//book[@year\u003e2001]/title/text()",
           "displayName": "XPath expression",
           "propertyName": "expression",
-          "initValue": "",
-          "propertyInfo": "Sets the XPath expression to be evaluated. It can be a dynamic expression.",
+          "propertyDescription": "Sets the XPath expression to be evaluated. It can be a dynamic expression.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -23,10 +23,10 @@
           "whenDescriptors": []
         },
         {
+          "initValue": "###USE_DEFAULT_VALUE###",
           "displayName": "Configuration",
           "propertyName": "configuration",
-          "initValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
+          "propertyDescription": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -36,10 +36,10 @@
               "objectProperties": [
                 {
                   "example": "soap \u003e http://schemas.xmlsoap.org/soap/envelope/\u003cbr\u003esec \u003e http://schemas.xmlsoap.org/soap/security/2000-12",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "displayName": "Prefix \u003e Namespace mappings",
                   "propertyName": "prefixNamespaceMap",
-                  "initValue": "###USE_DEFAULT_VALUE###",
-                  "propertyInfo": "Prefixes and Namespaces mappings used in the XPath expression.",
+                  "propertyDescription": "Prefixes and Namespaces mappings used in the XPath expression.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeMapDescriptor",
                     "instance": {
@@ -66,10 +66,10 @@
       "componentPropertyDescriptors": [
         {
           "example": "\u003ccode\u003e\u0027/assets/\u0027 + message.attributes().queryParams.file[0]\u003c/code\u003e",
+          "initValue": "#[]",
           "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
-          "initValue": "#[]",
-          "propertyInfo": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder. A dynamic value might be used to define the XSLT stylesheet path.",
+          "propertyDescription": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder. A dynamic value might be used to define the XSLT stylesheet path.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -80,10 +80,11 @@
         },
         {
           "example": "text/xml",
-          "displayName": "Output Mime type",
-          "propertyName": "mimeType",
           "initValue": "text/xml",
-          "propertyInfo": "Sets mime type of the transformed payload.",
+          "displayName": "Output Mime type",
+          "defaultValue": "text/xml",
+          "propertyName": "mimeType",
+          "propertyDescription": "Sets mime type of the transformed payload.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
@@ -226,10 +227,10 @@
       "componentPropertyDescriptors": [
         {
           "example": "/var/xml/my-stylesheet.xsl",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
-          "initValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The path on the file system of the XSLT stylesheet file. The file must be present on the file system otherwise an error will be thrown. A dynamic value might be used to define the XSLT stylesheet path.",
+          "propertyDescription": "The path on the file system of the XSLT stylesheet file. The file must be present on the file system otherwise an error will be thrown. A dynamic value might be used to define the XSLT stylesheet path.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -240,10 +241,11 @@
         },
         {
           "example": "text/xml",
-          "displayName": "Output mime type",
-          "propertyName": "mimeType",
           "initValue": "text/xml",
-          "propertyInfo": "Sets mime type of the transformed payload.",
+          "displayName": "Output mime type",
+          "defaultValue": "text/xml",
+          "propertyName": "mimeType",
+          "propertyDescription": "Sets mime type of the transformed payload.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
@@ -386,10 +388,10 @@
       "componentPropertyDescriptors": [
         {
           "example": "/assets/my-stylesheet.xsl",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "displayName": "XSLT stylesheet",
           "propertyName": "styleSheetFile",
-          "initValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder.",
+          "propertyDescription": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeResourceTextDescriptor",
             "instance": {
@@ -400,10 +402,11 @@
         },
         {
           "example": "text/xml",
-          "displayName": "Output Mime type",
-          "propertyName": "mimeType",
           "initValue": "text/xml",
-          "propertyInfo": "Sets mime type of the transformed payload.",
+          "displayName": "Output Mime type",
+          "defaultValue": "text/xml",
+          "propertyName": "mimeType",
+          "propertyDescription": "Sets mime type of the transformed payload.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
