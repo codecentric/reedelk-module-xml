@@ -21,20 +21,28 @@ import java.io.InputStream;
 
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
 
-@ESBComponent("XSLT From File")
+@ModuleComponent(
+        name = "XSLT From File",
+        description = "The XSLT component transforms XML documents into other XML documents, or other formats " +
+                "such as HTML for web pages, plain text or XSL Formatting Objects. " +
+                "The XSLT expects as input a stylesheet defining the transformation to be performed on " +
+                "the XML given in input. This component can be used when the stylesheet to be used is on the filesystem.")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTFile implements ProcessorSync {
 
+    @Example("/var/xml/my-stylesheet.xsl")
     @Property("XSLT stylesheet")
-    @PropertyInfo("The path on the file system of the XSLT stylesheet file. " +
+    @PropertyDescription("The path on the file system of the XSLT stylesheet file. " +
             "The file must be present on the file system otherwise an error will be thrown. " +
             "A dynamic value might be used to define the XSLT stylesheet path.")
     private DynamicString styleSheetFile;
 
-    @Property("Output Mime type")
     @MimeTypeCombo
-    @Default(MimeType.MIME_TYPE_TEXT_XML)
-    @PropertyInfo("Sets mime type of the transformed payload.")
+    @Example(MimeType.MIME_TYPE_TEXT_XML)
+    @InitValue(MimeType.MIME_TYPE_TEXT_XML)
+    @DefaultRenameMe(MimeType.MIME_TYPE_TEXT_XML)
+    @Property("Output mime type")
+    @PropertyDescription("Sets mime type of the transformed payload.")
     private String mimeType;
 
     @Reference
@@ -67,7 +75,7 @@ public class XSLTFile implements ProcessorSync {
 
         String transformResult = strategy.transform(inputDocument, message, flowContext);
 
-        MimeType parsedMimeType = MimeType.parse(mimeType);
+        MimeType parsedMimeType = MimeType.parse(mimeType, MimeType.TEXT_XML);
 
         return MessageBuilder.get()
                 .withString(transformResult, parsedMimeType)

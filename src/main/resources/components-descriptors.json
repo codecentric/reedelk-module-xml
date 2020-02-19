@@ -2,16 +2,16 @@
   "componentDescriptors": [
     {
       "hidden": false,
-      "displayName": "XPath Evaluate",
+      "displayName": "XPathEvaluate",
       "fullyQualifiedName": "com.reedelk.xml.component.XPathEvaluate",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
           "hintValue": "//book[@year\u003e2001]/title/text()",
-          "displayName": "XPath Expression",
+          "displayName": "XPath expression",
           "propertyName": "expression",
           "defaultValue": "",
-          "propertyInfo": "Sets the XPath expression to be evaluated. It can be a dynamic expression. \u003cbr\u003eExamples: \u003cul\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //book[@year\u003e2001]/title/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: count(//book/title)\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: boolean(/inventory/book/price[text() \u003e 14])\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //ns2:bookStore/ns2:book/ns2:name/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eDynamic\u003c/i\u003e: \u0027boolean(/inventory/book/price[text() \u003e \u0027 + message.attributes().queryParams.price + \u0027])\u0027\u003c/li\u003e\u003c/ul\u003e",
+          "propertyInfo": "Sets the XPath expression to be evaluated. It can be a dynamic expression.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -21,7 +21,7 @@
           "whenDescriptors": []
         },
         {
-          "displayName": "XPath Context",
+          "displayName": "Configuration",
           "propertyName": "configuration",
           "defaultValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
@@ -36,6 +36,7 @@
                   "displayName": "Prefix \u003e Namespace mappings",
                   "propertyName": "prefixNamespaceMap",
                   "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyInfo": "Prefixes and Namespaces mappings used in the XPath expression.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeMapDescriptor",
                     "instance": {
@@ -55,7 +56,7 @@
     },
     {
       "hidden": false,
-      "displayName": "XSLT From Resource Dynamic",
+      "displayName": "XSLTDynamicResource",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTDynamicResource",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
@@ -212,7 +213,7 @@
     },
     {
       "hidden": false,
-      "displayName": "XSLT From File",
+      "displayName": "XSLTFile",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTFile",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
@@ -230,7 +231,7 @@
           "whenDescriptors": []
         },
         {
-          "displayName": "Output Mime type",
+          "displayName": "Output mime type",
           "propertyName": "mimeType",
           "defaultValue": "text/xml",
           "propertyInfo": "Sets mime type of the transformed payload.",
@@ -369,7 +370,7 @@
     },
     {
       "hidden": false,
-      "displayName": "XSLT From Resource",
+      "displayName": "XSLTResource",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTResource",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [

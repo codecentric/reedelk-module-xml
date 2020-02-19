@@ -20,26 +20,31 @@ import java.util.Map;
 
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotBlank;
 
-@ESBComponent("XPath Evaluate")
+@ModuleComponent(
+        name = "XPath Evaluate",
+        description = "The XPath Evaluate component evaluates XPath expressions. " +
+                "The output of an XPath expression might be a list of strings " +
+                "(since it might match any number of elements in the given XML document) a " +
+                "number (e.g when the expression uses count() function) or a boolean " +
+                "(e.g when the expression uses not() function).")
 @Component(service = XPathEvaluate.class, scope = ServiceScope.PROTOTYPE)
 public class XPathEvaluate implements ProcessorSync {
 
-    @Property("XPath Expression")
-    @PropertyInfo("Sets the XPath expression to be evaluated. It can be a dynamic expression. <br>" +
-            "Examples: " +
-            "<ul>" +
+    @InitValue("")
+    @Hint("//book[@year>2001]/title/text()")
+    @Example("<ul>" +
             "<li><i>Static</i>: //book[@year>2001]/title/text()</li>" +
             "<li><i>Static</i>: count(//book/title)</li>" +
             "<li><i>Static</i>: boolean(/inventory/book/price[text() > 14])</li>" +
             "<li><i>Static</i>: //ns2:bookStore/ns2:book/ns2:name/text()</li>" +
             "<li><i>Dynamic</i>: 'boolean(/inventory/book/price[text() > ' + message.attributes().queryParams.price + '])'</li>" +
             "</ul>")
-    @Default("")
-    @Hint("//book[@year>2001]/title/text()")
+    @Property("XPath expression")
+    @PropertyDescription("Sets the XPath expression to be evaluated. It can be a dynamic expression.")
     private DynamicString expression;
 
-    @Property("XPath Context")
-    @PropertyInfo("The context configuration can be used when the XPath expression uses prefixes in the definition." +
+    @Property("Configuration")
+    @PropertyDescription("The context configuration can be used when the XPath expression uses prefixes in the definition." +
             " The configuration allows to define the prefixes > namespaces mapping.")
     private XPathConfiguration configuration;
 

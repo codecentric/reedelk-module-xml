@@ -1,8 +1,6 @@
 package com.reedelk.xml.component;
 
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.Shared;
-import com.reedelk.runtime.api.annotation.TabPlacementTop;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -14,7 +12,10 @@ import java.util.Map;
 public class XPathConfiguration implements Implementor {
 
     @TabPlacementTop
+    @Example("soap > http://schemas.xmlsoap.org/soap/envelope/<br>" +
+            "sec > http://schemas.xmlsoap.org/soap/security/2000-12")
     @Property("Prefix > Namespace mappings")
+    @PropertyDescription("Prefixes and Namespaces mappings used in the XPath expression.")
     private Map<String,String> prefixNamespaceMap;
 
     public void setPrefixNamespaceMap(Map<String, String> prefixNamespaceMap) {
