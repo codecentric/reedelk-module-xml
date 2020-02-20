@@ -2,33 +2,32 @@
   "components": [
     {
       "hidden": false,
+      "type": "PROCESSOR",
       "displayName": "XPath Evaluate",
       "description": "The XPath Evaluate component evaluates XPath expressions. The output of an XPath expression might be a list of strings (since it might match any number of elements in the given XML document) a number (e.g when the expression uses count() function) or a boolean (e.g when the expression uses not() function).",
       "fullyQualifiedName": "com.reedelk.xml.component.XPathEvaluate",
-      "componentType": "PROCESSOR",
       "properties": [
         {
+          "name": "expression",
           "example": "\u003cul\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //book[@year\u003e2001]/title/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: count(//book/title)\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: boolean(/inventory/book/price[text() \u003e 14])\u003c/li\u003e\u003cli\u003e\u003ci\u003eStatic\u003c/i\u003e: //ns2:bookStore/ns2:book/ns2:name/text()\u003c/li\u003e\u003cli\u003e\u003ci\u003eDynamic\u003c/i\u003e: \u0027boolean(/inventory/book/price[text() \u003e \u0027 + message.attributes().queryParams.price + \u0027])\u0027\u003c/li\u003e\u003c/ul\u003e",
           "initValue": "",
           "hintValue": "//book[@year\u003e2001]/title/text()",
+          "description": "Sets the XPath expression to be evaluated. It can be a dynamic expression.",
           "displayName": "XPath expression",
-          "propertyName": "expression",
-          "propertyDescription": "Sets the XPath expression to be evaluated. It can be a dynamic expression.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
               "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
             }
-          }
+          },
+          "whens": []
         },
         {
+          "name": "configuration",
           "initValue": "###USE_DEFAULT_VALUE###",
+          "description": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
           "displayName": "Configuration",
-          "propertyName": "configuration",
-          "propertyDescription": "The context configuration can be used when the XPath expression uses prefixes in the definition. The configuration allows to define the prefixes \u003e namespaces mapping.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
               "shared": "YES",
@@ -36,57 +35,57 @@
               "typeFullyQualifiedName": "com.reedelk.xml.component.XPathConfiguration",
               "objectProperties": [
                 {
+                  "name": "prefixNamespaceMap",
                   "example": "soap \u003e http://schemas.xmlsoap.org/soap/envelope/\u003cbr\u003esec \u003e http://schemas.xmlsoap.org/soap/security/2000-12",
                   "initValue": "###USE_DEFAULT_VALUE###",
+                  "description": "Prefixes and Namespaces mappings used in the XPath expression.",
                   "displayName": "Prefix \u003e Namespace mappings",
-                  "propertyName": "prefixNamespaceMap",
-                  "propertyDescription": "Prefixes and Namespaces mappings used in the XPath expression.",
-                  "whens": [],
-                  "propertyType": {
+                  "type": {
                     "classname": "com.reedelk.module.descriptor.model.TypeMapDescriptor",
                     "instance": {
                       "tabPlacement": "TOP",
                       "type": "java.util.Map"
                     }
-                  }
+                  },
+                  "whens": []
                 }
               ],
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
-          }
+          },
+          "whens": []
         }
       ]
     },
     {
       "hidden": false,
+      "type": "PROCESSOR",
       "displayName": "XSLT From Resource Dynamic",
       "description": "The XSLT component transforms XML documents into other XML documents, or other formats such as HTML for web pages, plain text or XSL Formatting Objects. The XSLT expects as input a stylesheet defining the transformation to be performed on the XML given in input. This component can be used when the stylesheet to be used is a file embedded in the project\u0027s resources directory and the exact name of the file depends on a context variable or a message property.",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTDynamicResource",
-      "componentType": "PROCESSOR",
       "properties": [
         {
+          "name": "styleSheetFile",
           "example": "\u003ccode\u003e\u0027/assets/\u0027 + message.attributes().queryParams.file[0]\u003c/code\u003e",
           "initValue": "#[]",
+          "description": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder. A dynamic value might be used to define the XSLT stylesheet path.",
           "displayName": "XSLT stylesheet",
-          "propertyName": "styleSheetFile",
-          "propertyDescription": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder. A dynamic value might be used to define the XSLT stylesheet path.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
               "type": "com.reedelk.runtime.api.resource.DynamicResource"
             }
-          }
+          },
+          "whens": []
         },
         {
+          "name": "mimeType",
           "example": "text/xml",
           "initValue": "text/xml",
+          "description": "Sets mime type of the transformed payload.",
           "displayName": "Output Mime type",
           "defaultValue": "text/xml",
-          "propertyName": "mimeType",
-          "propertyDescription": "Sets mime type of the transformed payload.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
               "editable": true,
@@ -214,40 +213,40 @@
               ],
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
-          }
+          },
+          "whens": []
         }
       ]
     },
     {
       "hidden": false,
+      "type": "PROCESSOR",
       "displayName": "XSLT From File",
       "description": "The XSLT component transforms XML documents into other XML documents, or other formats such as HTML for web pages, plain text or XSL Formatting Objects. The XSLT expects as input a stylesheet defining the transformation to be performed on the XML given in input. This component can be used when the stylesheet to be used is on the filesystem.",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTFile",
-      "componentType": "PROCESSOR",
       "properties": [
         {
+          "name": "styleSheetFile",
           "example": "/var/xml/my-stylesheet.xsl",
           "initValue": "###USE_DEFAULT_VALUE###",
+          "description": "The path on the file system of the XSLT stylesheet file. The file must be present on the file system otherwise an error will be thrown. A dynamic value might be used to define the XSLT stylesheet path.",
           "displayName": "XSLT stylesheet",
-          "propertyName": "styleSheetFile",
-          "propertyDescription": "The path on the file system of the XSLT stylesheet file. The file must be present on the file system otherwise an error will be thrown. A dynamic value might be used to define the XSLT stylesheet path.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
               "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
             }
-          }
+          },
+          "whens": []
         },
         {
+          "name": "mimeType",
           "example": "text/xml",
           "initValue": "text/xml",
+          "description": "Sets mime type of the transformed payload.",
           "displayName": "Output mime type",
           "defaultValue": "text/xml",
-          "propertyName": "mimeType",
-          "propertyDescription": "Sets mime type of the transformed payload.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
               "editable": true,
@@ -375,40 +374,40 @@
               ],
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
-          }
+          },
+          "whens": []
         }
       ]
     },
     {
       "hidden": false,
+      "type": "PROCESSOR",
       "displayName": "XSLT From Resource",
       "description": "The XSLT component transforms XML documents into other XML documents, or other formats such as HTML for web pages, plain text or XSL Formatting Objects. The XSLT expects as input a stylesheet defining the transformation to be performed on the XML given in input. This component can be used when the stylesheet to be used is a file embedded in the project\u0027s resources directory.",
       "fullyQualifiedName": "com.reedelk.xml.component.XSLTResource",
-      "componentType": "PROCESSOR",
       "properties": [
         {
+          "name": "styleSheetFile",
           "example": "/assets/my-stylesheet.xsl",
           "initValue": "###USE_DEFAULT_VALUE###",
+          "description": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder.",
           "displayName": "XSLT stylesheet",
-          "propertyName": "styleSheetFile",
-          "propertyDescription": "The path starting from the project \u0027resources\u0027 folder of the XSLT stylesheet file. The file must be present in the project\u0027s resources folder.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeResourceTextDescriptor",
             "instance": {
               "type": "com.reedelk.runtime.api.resource.ResourceText"
             }
-          }
+          },
+          "whens": []
         },
         {
+          "name": "mimeType",
           "example": "text/xml",
           "initValue": "text/xml",
+          "description": "Sets mime type of the transformed payload.",
           "displayName": "Output Mime type",
           "defaultValue": "text/xml",
-          "propertyName": "mimeType",
-          "propertyDescription": "Sets mime type of the transformed payload.",
-          "whens": [],
-          "propertyType": {
+          "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeComboDescriptor",
             "instance": {
               "editable": true,
@@ -536,7 +535,8 @@
               ],
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
-          }
+          },
+          "whens": []
         }
       ]
     }
