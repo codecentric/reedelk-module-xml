@@ -19,9 +19,8 @@ import java.io.InputStream;
 
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
 
-@ModuleComponent(
-        name = "XSLT From Resource",
-        description = "The XSLT component transforms XML documents into other XML documents, " +
+@ModuleComponent("XSLT From Resource")
+@Description("The XSLT component transforms XML documents into other XML documents, " +
                 "or other formats such as HTML for web pages, plain text or XSL Formatting Objects. " +
                 "The XSLT expects as input a stylesheet defining the transformation to be performed on " +
                 "the XML given in input. This component can be used when the stylesheet to be used is a " +
@@ -29,18 +28,18 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 @Component(service = XSLTResource.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTResource implements ProcessorSync {
 
-    @Example("/assets/my-stylesheet.xsl")
     @Property("XSLT stylesheet")
-    @PropertyDescription("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +
+    @Example("/assets/my-stylesheet.xsl")
+    @Description("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +
             "The file must be present in the project's resources folder.")
     private ResourceText styleSheetFile;
 
+    @Property("Output Mime type")
     @MimeTypeCombo
     @Example(MimeType.MIME_TYPE_TEXT_XML)
     @InitValue(MimeType.MIME_TYPE_TEXT_XML)
     @DefaultValue(MimeType.MIME_TYPE_TEXT_XML)
-    @Property("Output Mime type")
-    @PropertyDescription("Sets mime type of the transformed payload.")
+    @Description("Sets mime type of the transformed payload.")
     private String mimeType;
 
     @Reference

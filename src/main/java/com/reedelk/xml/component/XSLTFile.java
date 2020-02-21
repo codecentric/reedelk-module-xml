@@ -21,28 +21,27 @@ import java.io.InputStream;
 
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
 
-@ModuleComponent(
-        name = "XSLT From File",
-        description = "The XSLT component transforms XML documents into other XML documents, or other formats " +
+@ModuleComponent("XSLT From File")
+@Description("The XSLT component transforms XML documents into other XML documents, or other formats " +
                 "such as HTML for web pages, plain text or XSL Formatting Objects. " +
                 "The XSLT expects as input a stylesheet defining the transformation to be performed on " +
                 "the XML given in input. This component can be used when the stylesheet to be used is on the filesystem.")
 @Component(service = XSLTFile.class, scope = ServiceScope.PROTOTYPE)
 public class XSLTFile implements ProcessorSync {
 
-    @Example("/var/xml/my-stylesheet.xsl")
     @Property("XSLT stylesheet")
-    @PropertyDescription("The path on the file system of the XSLT stylesheet file. " +
+    @Example("/var/xml/my-stylesheet.xsl")
+    @Description("The path on the file system of the XSLT stylesheet file. " +
             "The file must be present on the file system otherwise an error will be thrown. " +
             "A dynamic value might be used to define the XSLT stylesheet path.")
     private DynamicString styleSheetFile;
 
+    @Property("Output mime type")
     @MimeTypeCombo
     @Example(MimeType.MIME_TYPE_TEXT_XML)
     @InitValue(MimeType.MIME_TYPE_TEXT_XML)
     @DefaultValue(MimeType.MIME_TYPE_TEXT_XML)
-    @Property("Output mime type")
-    @PropertyDescription("Sets mime type of the transformed payload.")
+    @Description("Sets mime type of the transformed payload.")
     private String mimeType;
 
     @Reference
