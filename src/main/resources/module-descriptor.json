@@ -1,4 +1,5 @@
 {
+  "name": "module-xml",
   "components": [
     {
       "hidden": false,
@@ -20,6 +21,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -47,12 +49,14 @@
                       "type": "java.util.Map"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 }
               ],
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
@@ -76,6 +80,7 @@
               "type": "com.reedelk.runtime.api.resource.DynamicResource"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -214,6 +219,7 @@
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
@@ -237,6 +243,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicString"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -375,6 +382,7 @@
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
@@ -398,6 +406,7 @@
               "type": "com.reedelk.runtime.api.resource.ResourceText"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -536,10 +545,11 @@
               "type": "com.reedelk.runtime.api.annotation.Combo"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
     }
   ],
-  "autocompleteContributors": []
+  "autocompleteItems": []
 }
