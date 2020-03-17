@@ -13,6 +13,8 @@ public class XPathConfiguration implements Implementor {
 
     @Property("Prefix > Namespace mappings")
     @TabPlacementTop
+    @KeyName("Prefix Name")
+    @ValueName("Namespace")
     @Example("soap > http://schemas.xmlsoap.org/soap/envelope/<br>" +
             "sec > http://schemas.xmlsoap.org/soap/security/2000-12")
     @Description("Prefixes and Namespaces mappings used in the XPath expression.")
