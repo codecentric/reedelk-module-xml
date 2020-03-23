@@ -31,6 +31,7 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 public class XSLTDynamicResource implements ProcessorSync {
 
     @Property("XSLT stylesheet")
+    @Hint("/assets/my-stylesheet.xsl")
     @InitValue("#[]")
     @Example("<code>'/assets/' + message.attributes().queryParams.file[0]</code>")
     @Description("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +

@@ -30,6 +30,7 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 public class XSLTFile implements ProcessorSync {
 
     @Property("XSLT stylesheet")
+    @Hint("/var/xml/my-stylesheet.xsl")
     @Example("/var/xml/my-stylesheet.xsl")
     @Description("The path on the file system of the XSLT stylesheet file. " +
             "The file must be present on the file system otherwise an error will be thrown. " +
