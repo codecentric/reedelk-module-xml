@@ -12,6 +12,7 @@ import java.util.Map;
 public class XPathConfiguration implements Implementor {
 
     @Property("Prefix > Namespace mappings")
+    @TabGroup("Prefix > Namespace mappings")
     @KeyName("Prefix Name")
     @ValueName("Namespace")
     @Example("soap > http://schemas.xmlsoap.org/soap/envelope/<br>" +
