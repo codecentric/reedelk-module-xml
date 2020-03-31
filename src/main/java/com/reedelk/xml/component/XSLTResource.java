@@ -30,6 +30,7 @@ public class XSLTResource implements ProcessorSync {
 
     @Property("XSLT stylesheet")
     @Example("/assets/my-stylesheet.xsl")
+    @HintBrowseFile("Select XSLT Stylesheet File ...")
     @Description("The path starting from the project 'resources' folder of the XSLT stylesheet file. " +
             "The file must be present in the project's resources folder.")
     private ResourceText styleSheetFile;
