@@ -40,7 +40,6 @@ public class XSLTFile implements ProcessorSync {
     @Property("Output mime type")
     @MimeTypeCombo
     @Example(MimeType.MIME_TYPE_TEXT_XML)
-    @InitValue(MimeType.MIME_TYPE_TEXT_XML)
     @DefaultValue(MimeType.MIME_TYPE_TEXT_XML)
     @Description("Sets mime type of the transformed payload.")
     private String mimeType;
