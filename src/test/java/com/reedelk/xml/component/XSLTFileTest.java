@@ -144,6 +144,4 @@ public class XSLTFileTest extends AbstractTest {
                 "   </body>\n" +
                 "</html>");
     }
-
-
 }
