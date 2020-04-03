@@ -42,6 +42,7 @@ public class XPathEvaluate implements ProcessorSync {
     @Description("Sets the XPath expression to be evaluated. It can be a dynamic expression.")
     private DynamicString expression;
 
+    @DialogTitle("XPath Configuration")
     @Property("Configuration")
     @Description("The context configuration can be used when the XPath expression uses prefixes in the definition." +
             " The configuration allows to define the prefixes > namespaces mapping.")
