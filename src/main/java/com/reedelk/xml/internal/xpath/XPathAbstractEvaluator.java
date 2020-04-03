@@ -1,4 +1,4 @@
-package com.reedelk.xml.xpath;
+package com.reedelk.xml.internal.xpath;
 
 import com.reedelk.xml.component.XPathConfiguration;
 import net.sf.saxon.s9api.DocumentBuilder;

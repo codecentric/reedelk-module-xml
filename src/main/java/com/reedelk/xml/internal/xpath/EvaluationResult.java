@@ -1,4 +1,4 @@
-package com.reedelk.xml.xpath;
+package com.reedelk.xml.internal.xpath;
 
 public class EvaluationResult {
 

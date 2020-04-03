@@ -1,4 +1,4 @@
-package com.reedelk.xml.xpath;
+package com.reedelk.xml.internal.xpath;
 
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmValue;

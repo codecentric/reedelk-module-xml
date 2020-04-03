@@ -1,4 +1,4 @@
-package com.reedelk.xml.xslt;
+package com.reedelk.xml.internal.xslt;
 
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.flow.FlowContext;

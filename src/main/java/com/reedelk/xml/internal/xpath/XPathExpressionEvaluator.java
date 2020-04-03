@@ -1,4 +1,4 @@
-package com.reedelk.xml.xpath;
+package com.reedelk.xml.internal.xpath;
 
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;

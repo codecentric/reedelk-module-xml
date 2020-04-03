@@ -1,4 +1,4 @@
-package com.reedelk.xml.xpath;
+package com.reedelk.xml.internal.xpath;
 
 import java.io.Serializable;
 import java.util.Map;
