@@ -1,6 +1,6 @@
 package com.reedelk.xml.internal.xslt;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
@@ -37,8 +37,8 @@ public class XSLTDynamicFileTransformerStrategy extends XSLTAbstractTransformer 
 
                 return transform(inputDocument, transformer);
 
-            } catch (IOException e) {
-                throw new ESBException(e);
+            } catch (IOException exception) {
+                throw new PlatformException(exception);
 
             } finally {
                 if (transformer != null) {

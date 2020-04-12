@@ -1,6 +1,6 @@
 package com.reedelk.xml.internal.xslt;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import net.sf.saxon.s9api.*;
 
 import javax.xml.transform.stream.StreamSource;
@@ -24,8 +24,8 @@ abstract class XSLTAbstractTransformer {
             XdmNode stylesheet = documentBuilder.build(styleSource);
             XsltExecutable foStyle = compiler.compile(stylesheet.asSource());
             return foStyle.load();
-        } catch (SaxonApiException e) {
-            throw new ESBException(e);
+        } catch (SaxonApiException exception) {
+            throw new PlatformException(exception);
         }
     }
 
@@ -42,7 +42,7 @@ abstract class XSLTAbstractTransformer {
 
             return writer.toString();
         } catch (SaxonApiException e) {
-            throw new ESBException(e);
+            throw new PlatformException(e);
         }
     }
 }

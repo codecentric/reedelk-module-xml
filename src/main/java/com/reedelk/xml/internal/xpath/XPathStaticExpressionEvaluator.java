@@ -1,6 +1,6 @@
 package com.reedelk.xml.internal.xpath;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.xml.component.XPathConfiguration;
@@ -22,7 +22,7 @@ public class XPathStaticExpressionEvaluator extends XPathAbstractEvaluator {
         try {
             xPathExecutable = xPathCompiler.compile(xPathExpression);
         } catch (SaxonApiException exception) {
-            throw new ESBException(exception);
+            throw new PlatformException(exception);
         }
     }
 
@@ -46,7 +46,7 @@ public class XPathStaticExpressionEvaluator extends XPathAbstractEvaluator {
             return new EvaluationResult(xPathExpression, mappedResult);
 
         } catch (SaxonApiException | IOException exception) {
-            throw new ESBException(exception);
+            throw new PlatformException(exception);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.reedelk.xml.internal.xslt;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import net.sf.saxon.s9api.XsltTransformer;
@@ -19,8 +19,8 @@ public class XSLTStaticFileTransformerStrategy extends XSLTAbstractTransformer i
         try(FileInputStream styleSheetFileInputStream = new FileInputStream(stileSheetFile)) {
             StreamSource styleSheetSource = new StreamSource(styleSheetFileInputStream);
             transformer = createTransformerWith(styleSheetSource);
-        } catch (IOException e) {
-            throw new ESBException(e);
+        } catch (IOException exception) {
+            throw new PlatformException(exception);
         }
     }
 
