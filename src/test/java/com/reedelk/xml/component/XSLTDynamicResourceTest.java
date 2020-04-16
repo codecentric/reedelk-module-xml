@@ -48,7 +48,7 @@ public class XSLTDynamicResourceTest extends AbstractTest {
         component.setStyleSheetFile(dynamicStyleSheetResource);
 
         String xmlDocument = TestUtils.resourceAsString("/fixture/xslt_input_document.xml");
-        Message message = MessageBuilder.get().withText(xmlDocument).build();
+        Message message = MessageBuilder.get(TestComponent.class).withText(xmlDocument).build();
 
         String styleSheet = TestUtils.resourceAsString("/fixture/stylesheet_sample.xsl");
         ResourceFile<byte[]> styleSheetResourceFile = resourceFileWithData(styleSheet);

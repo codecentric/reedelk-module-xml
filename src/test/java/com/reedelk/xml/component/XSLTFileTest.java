@@ -58,7 +58,7 @@ public class XSLTFileTest extends AbstractTest {
         component.initialize();
 
         String xmlDocument = TestUtils.resourceAsString("/fixture/xslt_input_document.xml");
-        Message message = MessageBuilder.get().withText(xmlDocument).build();
+        Message message = MessageBuilder.get(TestComponent.class).withText(xmlDocument).build();
 
         // When
         Message result = component.apply(context, message);
@@ -109,7 +109,7 @@ public class XSLTFileTest extends AbstractTest {
         component.initialize();
 
         String xmlDocument = TestUtils.resourceAsString("/fixture/xslt_input_document.xml");
-        Message message = MessageBuilder.get().withText(xmlDocument).build();
+        Message message = MessageBuilder.get(TestComponent.class).withText(xmlDocument).build();
 
         doReturn(Optional.of(tmpDirectory.toString()))
                 .when(scriptEngineService)

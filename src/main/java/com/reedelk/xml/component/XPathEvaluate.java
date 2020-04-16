@@ -4,7 +4,6 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
-import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.ScriptEngineService;
@@ -79,12 +78,9 @@ public class XPathEvaluate implements ProcessorSync {
         Map<String, Serializable> attributes = new HashMap<>();
         XPathAttribute.XPATH_EXPRESSION.set(attributes, evaluationResult.getExpression());
 
-        DefaultMessageAttributes responseAttributes
-                = new DefaultMessageAttributes(XPathEvaluate.class, attributes);
-
-        return MessageBuilder.get()
-                .attributes(responseAttributes)
+        return MessageBuilder.get(XPathEvaluate.class)
                 .withJavaObject(xPathResult)
+                .attributes(attributes)
                 .build();
     }
 

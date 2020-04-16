@@ -66,7 +66,7 @@ public class XSLTResource implements ProcessorSync {
 
         MimeType parsedMimeType = MimeType.parse(mimeType, MimeType.TEXT_XML);
 
-        return MessageBuilder.get()
+        return MessageBuilder.get(XSLTResource.class)
                 .withString(transformResult, parsedMimeType)
                 .build();
     }

@@ -52,7 +52,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setConfiguration(configuration);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xmlDocument).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xmlDocument).build();
 
             // When
             Message result = component.apply(context, message);
@@ -71,7 +71,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             // When
             Message result = component.apply(context, message);
@@ -90,7 +90,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             // When
             Message result = component.apply(context, message);
@@ -110,7 +110,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             // When
             Message result = component.apply(context, message);
@@ -129,7 +129,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             // When
             Message result = component.apply(context, message);
@@ -157,7 +157,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             doReturn(Optional.of("//book[@year>2001]/title/text()"))
                     .when(scriptEngineService)
@@ -181,7 +181,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             doReturn(Optional.empty())
                     .when(scriptEngineService)
@@ -205,7 +205,7 @@ public class XPathEvaluateTest extends AbstractTest {
             component.setExpression(xPathExpression);
             component.initialize();
 
-            Message message = MessageBuilder.get().withText(xml).build();
+            Message message = MessageBuilder.get(TestComponent.class).withText(xml).build();
 
             doReturn(Optional.of("//book[@year>2001]/title/text()"))
                     .when(scriptEngineService)
