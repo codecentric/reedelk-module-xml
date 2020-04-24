@@ -1,7 +1,7 @@
 package com.reedelk.xml.component;
 
 import com.reedelk.runtime.api.commons.ModuleContext;
-import com.reedelk.runtime.api.exception.ConfigurationException;
+import com.reedelk.runtime.api.exception.ComponentConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.resource.DynamicResource;
@@ -34,8 +34,8 @@ public class XSLTDynamicResourceTest extends AbstractTest {
     @Test
     void shouldThrowExceptionWhenInitializedAndStyleSheetFileNotDefined() {
         // When
-        ConfigurationException thrown =
-                assertThrows(ConfigurationException.class, () -> component.initialize());
+        ComponentConfigurationException thrown =
+                assertThrows(ComponentConfigurationException.class, () -> component.initialize());
 
         // Expect
         assertThat(thrown).isNotNull();
