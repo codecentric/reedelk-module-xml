@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotBlank;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotBlank;
 
 @ModuleComponent("XPath Evaluate")
 @Description("The XPath Evaluate component evaluates XPath expressions. " +

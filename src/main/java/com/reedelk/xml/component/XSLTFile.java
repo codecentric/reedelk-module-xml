@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotNull;
 
 @ModuleComponent("XSLT From File")
 @Description("The XSLT component transforms XML documents into other XML documents, or other formats " +
