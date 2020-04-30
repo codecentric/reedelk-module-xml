@@ -5,17 +5,18 @@ import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageAttributes;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
-import com.reedelk.xml.internal.xpath.*;
+import com.reedelk.xml.internal.attribute.XPathEvaluateAttributes;
+import com.reedelk.xml.internal.xpath.EvaluationResult;
+import com.reedelk.xml.internal.xpath.XPathDynamicExpressionEvaluator;
+import com.reedelk.xml.internal.xpath.XPathExpressionEvaluator;
+import com.reedelk.xml.internal.xpath.XPathStaticExpressionEvaluator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotBlank;
 
@@ -75,8 +76,7 @@ public class XPathEvaluate implements ProcessorSync {
 
         Object xPathResult = evaluationResult.getResult();
 
-        Map<String, Serializable> attributes = new HashMap<>();
-        XPathAttribute.XPATH_EXPRESSION.set(attributes, evaluationResult.getExpression());
+        MessageAttributes attributes = new XPathEvaluateAttributes(evaluationResult.getExpression());
 
         return MessageBuilder.get(XPathEvaluate.class)
                 .withJavaObject(xPathResult)
