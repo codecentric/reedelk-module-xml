@@ -5,6 +5,7 @@ import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageAttributes;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.DynamicResource;
@@ -21,6 +22,13 @@ import java.io.InputStream;
 import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotNull;
 
 @ModuleComponent("XSLT From Resource Dynamic")
+@ComponentOutput(
+        attributes = MessageAttributes.class,
+        payload = String.class,
+        description = "The document created by applying the XSLT stylesheet on the input XML.")
+@ComponentInput(
+        payload = Object.class,
+        description = "The XML on which the XSLT stylesheet should be applied to.")
 @Description("The XSLT component transforms XML documents into other XML documents, " +
                 "or other formats such as HTML for web pages, plain text or XSL Formatting Objects. " +
                 "The XSLT expects as input a stylesheet defining the transformation to be performed on " +

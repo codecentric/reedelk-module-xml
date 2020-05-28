@@ -21,6 +21,13 @@ import org.osgi.service.component.annotations.ServiceScope;
 import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotBlank;
 
 @ModuleComponent("XPath Evaluate")
+@ComponentOutput(
+        attributes = XPathEvaluateAttributes.class,
+        payload = Object.class,
+        description = "The result of the xpath evaluate operation.")
+@ComponentInput(
+        payload = Object.class,
+        description = "The XML on which the XPath expression should be evaluated on.")
 @Description("The XPath Evaluate component evaluates XPath expressions. " +
                 "The output of an XPath expression might be a list of strings " +
                 "(since it might match any number of elements in the given XML document) a " +
