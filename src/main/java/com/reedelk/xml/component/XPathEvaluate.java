@@ -26,8 +26,8 @@ import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuratio
         payload = Object.class,
         description = "The result of the xpath evaluate operation.")
 @ComponentInput(
-        payload = Object.class,
-        description = "The XML on which the XPath expression should be evaluated on.")
+        payload = { String.class, byte[].class},
+        description = "The XML as string or byte array on which the XPath expression should be evaluated on.")
 @Description("The XPath Evaluate component evaluates XPath expressions. " +
                 "The output of an XPath expression might be a list of strings " +
                 "(since it might match any number of elements in the given XML document) a " +

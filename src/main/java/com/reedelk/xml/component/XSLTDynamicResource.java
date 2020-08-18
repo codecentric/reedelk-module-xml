@@ -27,8 +27,8 @@ import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuratio
         payload = String.class,
         description = "The document created by applying the XSLT stylesheet on the input XML.")
 @ComponentInput(
-        payload = Object.class,
-        description = "The XML on which the XSLT stylesheet should be applied to.")
+        payload = { String.class, byte[].class},
+        description = "The XML as string or byte array on which the XSLT stylesheet should be applied to.")
 @Description("The XSLT component transforms XML documents into other XML documents, " +
                 "or other formats such as HTML for web pages, plain text or XSL Formatting Objects. " +
                 "The XSLT expects as input a stylesheet defining the transformation to be performed on " +
