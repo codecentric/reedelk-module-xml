@@ -23,7 +23,7 @@ import java.net.URL;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@ModuleComponent("XMLToJSON")
+@ModuleComponent("XML To JSON")
 @ComponentOutput(
         attributes = MessageAttributes.class,
         payload = String.class,
