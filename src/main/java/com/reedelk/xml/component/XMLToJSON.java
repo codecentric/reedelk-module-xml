@@ -27,11 +27,11 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @ComponentOutput(
         attributes = MessageAttributes.class,
         payload = String.class,
-        description = "XMLToJSON Output description")
+        description = "A JSON document mapped from the given XML document in the message payload.")
 @ComponentInput(
         payload = { String.class, byte[].class},
         description = "The XML document as string or byte array to be converted into JSON.")
-@Description("Converts an XML input document into a JSON document. XML attributes and nodes are mapped to JSON properties for the object being mapped to.")
+@Description("Converts an XML input document from the current message payload into a JSON document. XML attributes and nodes are mapped to JSON properties for the object being mapped to.")
 @Component(service = XMLToJSON.class, scope = PROTOTYPE)
 public class XMLToJSON implements ProcessorSync {
 
