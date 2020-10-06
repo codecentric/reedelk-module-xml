@@ -20,6 +20,13 @@ public class XSLTStaticResourceTransformerStrategy extends XSLTAbstractTransform
         StreamSource style = new StreamSource(new StringReader(xslt));
         transformer = createTransformerWith(style);
     }
+
+    public XSLTStaticResourceTransformerStrategy(String styleSheet) {
+        super();
+        StreamSource style = new StreamSource(new StringReader(styleSheet));
+        transformer = createTransformerWith(style);
+    }
+
     @Override
     public String transform(InputStream inputDocument, Message message, FlowContext context) {
         return transform(inputDocument, transformer);
